@@ -1,0 +1,429 @@
+{
+  "name": "NSF 2025 Leaked",
+  "description": "104-term subset of the NSF leaked decision-tree word list. Source-of-truth for the AURA Lab Banned Word Checker sibling product. Terms with source 'leaked' appear only in the NSF leaked list; 'both' appear in both the leaked list and the community-compiled defensive list.",
+  "version": "2.0.0",
+  "last_updated": "2026-05-17",
+  "counts": {
+    "leaked_only": 3,
+    "both": 101,
+    "total": 104
+  },
+  "terms": [
+    {
+      "term": "activism",
+      "source": "both"
+    },
+    {
+      "term": "activists",
+      "source": "both"
+    },
+    {
+      "term": "advocacy",
+      "source": "both"
+    },
+    {
+      "term": "advocate",
+      "source": "both"
+    },
+    {
+      "term": "advocates",
+      "source": "both"
+    },
+    {
+      "term": "antiracist",
+      "source": "both"
+    },
+    {
+      "term": "barrier",
+      "source": "both"
+    },
+    {
+      "term": "barriers",
+      "source": "both"
+    },
+    {
+      "term": "biased",
+      "source": "both"
+    },
+    {
+      "term": "biased toward",
+      "source": "both"
+    },
+    {
+      "term": "biases",
+      "source": "both"
+    },
+    {
+      "term": "biases towards",
+      "source": "both"
+    },
+    {
+      "term": "bipoc",
+      "source": "both"
+    },
+    {
+      "term": "black and latinx",
+      "source": "both"
+    },
+    {
+      "term": "community",
+      "source": "leaked"
+    },
+    {
+      "term": "community diversity",
+      "source": "both"
+    },
+    {
+      "term": "community equity",
+      "source": "both"
+    },
+    {
+      "term": "cultural differences",
+      "source": "both"
+    },
+    {
+      "term": "cultural heritage",
+      "source": "both"
+    },
+    {
+      "term": "culturally responsive",
+      "source": "both"
+    },
+    {
+      "term": "disabilities",
+      "source": "both"
+    },
+    {
+      "term": "disability",
+      "source": "both"
+    },
+    {
+      "term": "discriminated",
+      "source": "both"
+    },
+    {
+      "term": "discrimination",
+      "source": "both"
+    },
+    {
+      "term": "discriminatory",
+      "source": "both"
+    },
+    {
+      "term": "diverse backgrounds",
+      "source": "both"
+    },
+    {
+      "term": "diverse communities",
+      "source": "both"
+    },
+    {
+      "term": "diverse community",
+      "source": "both"
+    },
+    {
+      "term": "diverse group",
+      "source": "both"
+    },
+    {
+      "term": "diverse groups",
+      "source": "both"
+    },
+    {
+      "term": "diversified",
+      "source": "both"
+    },
+    {
+      "term": "diversify",
+      "source": "both"
+    },
+    {
+      "term": "diversifying",
+      "source": "both"
+    },
+    {
+      "term": "diversity",
+      "source": "leaked"
+    },
+    {
+      "term": "diversity and inclusion",
+      "source": "both"
+    },
+    {
+      "term": "enhance the diversity",
+      "source": "both"
+    },
+    {
+      "term": "enhancing diversity",
+      "source": "both"
+    },
+    {
+      "term": "equal opportunity",
+      "source": "both"
+    },
+    {
+      "term": "equality",
+      "source": "both"
+    },
+    {
+      "term": "equitable",
+      "source": "both"
+    },
+    {
+      "term": "equity",
+      "source": "both"
+    },
+    {
+      "term": "ethnicity",
+      "source": "both"
+    },
+    {
+      "term": "excluded",
+      "source": "both"
+    },
+    {
+      "term": "female",
+      "source": "both"
+    },
+    {
+      "term": "females",
+      "source": "both"
+    },
+    {
+      "term": "fostering inclusivity",
+      "source": "both"
+    },
+    {
+      "term": "gender",
+      "source": "both"
+    },
+    {
+      "term": "gender diversity",
+      "source": "both"
+    },
+    {
+      "term": "genders",
+      "source": "both"
+    },
+    {
+      "term": "hate speech",
+      "source": "both"
+    },
+    {
+      "term": "hispanic minority",
+      "source": "both"
+    },
+    {
+      "term": "historically",
+      "source": "both"
+    },
+    {
+      "term": "implicit bias",
+      "source": "both"
+    },
+    {
+      "term": "implicit biases",
+      "source": "both"
+    },
+    {
+      "term": "inclusion",
+      "source": "both"
+    },
+    {
+      "term": "inclusive",
+      "source": "both"
+    },
+    {
+      "term": "inclusiveness",
+      "source": "both"
+    },
+    {
+      "term": "inclusivity",
+      "source": "both"
+    },
+    {
+      "term": "increase diversity",
+      "source": "both"
+    },
+    {
+      "term": "increase the diversity",
+      "source": "both"
+    },
+    {
+      "term": "indigenous community",
+      "source": "both"
+    },
+    {
+      "term": "inequalities",
+      "source": "both"
+    },
+    {
+      "term": "inequality",
+      "source": "both"
+    },
+    {
+      "term": "inequitable",
+      "source": "both"
+    },
+    {
+      "term": "inequities",
+      "source": "both"
+    },
+    {
+      "term": "institutional",
+      "source": "both"
+    },
+    {
+      "term": "lgbt",
+      "source": "both"
+    },
+    {
+      "term": "marginalize",
+      "source": "both"
+    },
+    {
+      "term": "marginalized",
+      "source": "both"
+    },
+    {
+      "term": "minorities",
+      "source": "both"
+    },
+    {
+      "term": "minority",
+      "source": "both"
+    },
+    {
+      "term": "multicultural",
+      "source": "both"
+    },
+    {
+      "term": "polarization",
+      "source": "both"
+    },
+    {
+      "term": "political",
+      "source": "both"
+    },
+    {
+      "term": "prejudice",
+      "source": "both"
+    },
+    {
+      "term": "privileges",
+      "source": "both"
+    },
+    {
+      "term": "promoting diversity",
+      "source": "both"
+    },
+    {
+      "term": "race and ethnicity",
+      "source": "both"
+    },
+    {
+      "term": "racial",
+      "source": "both"
+    },
+    {
+      "term": "racial diversity",
+      "source": "both"
+    },
+    {
+      "term": "racial inequality",
+      "source": "both"
+    },
+    {
+      "term": "racial justice",
+      "source": "both"
+    },
+    {
+      "term": "racially",
+      "source": "both"
+    },
+    {
+      "term": "racism",
+      "source": "both"
+    },
+    {
+      "term": "sense of belonging",
+      "source": "both"
+    },
+    {
+      "term": "sexual preferences",
+      "source": "both"
+    },
+    {
+      "term": "social justice",
+      "source": "both"
+    },
+    {
+      "term": "socio cultural",
+      "source": "both"
+    },
+    {
+      "term": "socio economic",
+      "source": "both"
+    },
+    {
+      "term": "sociocultural",
+      "source": "both"
+    },
+    {
+      "term": "socioeconomic status",
+      "source": "leaked"
+    },
+    {
+      "term": "stereotypes",
+      "source": "both"
+    },
+    {
+      "term": "systemic",
+      "source": "both"
+    },
+    {
+      "term": "trauma",
+      "source": "both"
+    },
+    {
+      "term": "under appreciated",
+      "source": "both"
+    },
+    {
+      "term": "under represented",
+      "source": "both"
+    },
+    {
+      "term": "under served",
+      "source": "both"
+    },
+    {
+      "term": "underrepresentation",
+      "source": "both"
+    },
+    {
+      "term": "underrepresented",
+      "source": "both"
+    },
+    {
+      "term": "underserved",
+      "source": "both"
+    },
+    {
+      "term": "undervalued",
+      "source": "both"
+    },
+    {
+      "term": "victim",
+      "source": "both"
+    },
+    {
+      "term": "women",
+      "source": "both"
+    },
+    {
+      "term": "women and underrepresented",
+      "source": "both"
+    }
+  ]
+}

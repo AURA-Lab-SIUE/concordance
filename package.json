@@ -1,0 +1,15 @@
+{
+  "name": "concordance",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "AURA Lab Concordance: topic-agnostic term checker. Built by AURA Lab at SIUE in collaboration with SIM DAD LLC.",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1"
+  }
+}

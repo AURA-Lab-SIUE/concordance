@@ -1,0 +1,1802 @@
+{
+  "name": "AURA Lab Extended",
+  "description": "447-term superset: NSF leaked decision-tree list + community-compiled defensive additions. Marked per-term: leaked = appears in NSF source, existing = community-added, both = appears in both.",
+  "version": "2.0.0",
+  "last_updated": "2026-05-17",
+  "counts": {
+    "leaked_only": 3,
+    "existing_only": 343,
+    "both": 101,
+    "total": 447
+  },
+  "terms": [
+    {
+      "term": "activism",
+      "source": "both"
+    },
+    {
+      "term": "activist",
+      "source": "existing"
+    },
+    {
+      "term": "activists",
+      "source": "both"
+    },
+    {
+      "term": "advance diversity",
+      "source": "existing"
+    },
+    {
+      "term": "advance inclusivity",
+      "source": "existing"
+    },
+    {
+      "term": "advance the diversity",
+      "source": "existing"
+    },
+    {
+      "term": "advancing diversity",
+      "source": "existing"
+    },
+    {
+      "term": "advancing inclusive",
+      "source": "existing"
+    },
+    {
+      "term": "advocacy",
+      "source": "both"
+    },
+    {
+      "term": "advocate",
+      "source": "both"
+    },
+    {
+      "term": "advocates",
+      "source": "both"
+    },
+    {
+      "term": "affirmative action",
+      "source": "existing"
+    },
+    {
+      "term": "alliance for diversity",
+      "source": "existing"
+    },
+    {
+      "term": "ally",
+      "source": "existing"
+    },
+    {
+      "term": "allyship",
+      "source": "existing"
+    },
+    {
+      "term": "antiracist",
+      "source": "both"
+    },
+    {
+      "term": "background inclusivity",
+      "source": "existing"
+    },
+    {
+      "term": "barrier",
+      "source": "both"
+    },
+    {
+      "term": "barriers",
+      "source": "both"
+    },
+    {
+      "term": "bias toward",
+      "source": "existing"
+    },
+    {
+      "term": "bias towards",
+      "source": "existing"
+    },
+    {
+      "term": "biased",
+      "source": "both"
+    },
+    {
+      "term": "biased toward",
+      "source": "both"
+    },
+    {
+      "term": "biased towards",
+      "source": "existing"
+    },
+    {
+      "term": "biases",
+      "source": "both"
+    },
+    {
+      "term": "biases toward",
+      "source": "existing"
+    },
+    {
+      "term": "biases towards",
+      "source": "both"
+    },
+    {
+      "term": "bicultural",
+      "source": "existing"
+    },
+    {
+      "term": "bipoc",
+      "source": "both"
+    },
+    {
+      "term": "bl cultural",
+      "source": "existing"
+    },
+    {
+      "term": "black and latinx",
+      "source": "both"
+    },
+    {
+      "term": "black cultural",
+      "source": "existing"
+    },
+    {
+      "term": "black culture",
+      "source": "existing"
+    },
+    {
+      "term": "black cultures",
+      "source": "existing"
+    },
+    {
+      "term": "broaden diversity",
+      "source": "existing"
+    },
+    {
+      "term": "broaden the diversity",
+      "source": "existing"
+    },
+    {
+      "term": "clean energy",
+      "source": "existing"
+    },
+    {
+      "term": "climate action",
+      "source": "existing"
+    },
+    {
+      "term": "climate change",
+      "source": "existing"
+    },
+    {
+      "term": "climate conscious",
+      "source": "existing"
+    },
+    {
+      "term": "climate consciousness",
+      "source": "existing"
+    },
+    {
+      "term": "climate equality",
+      "source": "existing"
+    },
+    {
+      "term": "climate equity",
+      "source": "existing"
+    },
+    {
+      "term": "climate injustice",
+      "source": "existing"
+    },
+    {
+      "term": "climate injustices",
+      "source": "existing"
+    },
+    {
+      "term": "climate justice",
+      "source": "existing"
+    },
+    {
+      "term": "climate justices",
+      "source": "existing"
+    },
+    {
+      "term": "climate research",
+      "source": "existing"
+    },
+    {
+      "term": "commitment to diversity",
+      "source": "existing"
+    },
+    {
+      "term": "community",
+      "source": "leaked"
+    },
+    {
+      "term": "community diversity",
+      "source": "both"
+    },
+    {
+      "term": "community equity",
+      "source": "both"
+    },
+    {
+      "term": "community inclusivity",
+      "source": "existing"
+    },
+    {
+      "term": "cultural activism",
+      "source": "existing"
+    },
+    {
+      "term": "cultural activist",
+      "source": "existing"
+    },
+    {
+      "term": "cultural activists",
+      "source": "existing"
+    },
+    {
+      "term": "cultural advocacy",
+      "source": "existing"
+    },
+    {
+      "term": "cultural advocate",
+      "source": "existing"
+    },
+    {
+      "term": "cultural and ethnic",
+      "source": "existing"
+    },
+    {
+      "term": "cultural and racial",
+      "source": "existing"
+    },
+    {
+      "term": "cultural appropriation",
+      "source": "existing"
+    },
+    {
+      "term": "cultural appropriations",
+      "source": "existing"
+    },
+    {
+      "term": "cultural bias",
+      "source": "existing"
+    },
+    {
+      "term": "cultural competency",
+      "source": "existing"
+    },
+    {
+      "term": "cultural connections",
+      "source": "existing"
+    },
+    {
+      "term": "cultural differences",
+      "source": "both"
+    },
+    {
+      "term": "cultural heritage",
+      "source": "both"
+    },
+    {
+      "term": "cultural humility",
+      "source": "existing"
+    },
+    {
+      "term": "cultural inequalities",
+      "source": "existing"
+    },
+    {
+      "term": "cultural inequality",
+      "source": "existing"
+    },
+    {
+      "term": "cultural inequities",
+      "source": "existing"
+    },
+    {
+      "term": "cultural inequity",
+      "source": "existing"
+    },
+    {
+      "term": "cultural injustice",
+      "source": "existing"
+    },
+    {
+      "term": "cultural injustices",
+      "source": "existing"
+    },
+    {
+      "term": "cultural justice",
+      "source": "existing"
+    },
+    {
+      "term": "cultural relevance",
+      "source": "existing"
+    },
+    {
+      "term": "cultural segregation",
+      "source": "existing"
+    },
+    {
+      "term": "culturally attuned",
+      "source": "existing"
+    },
+    {
+      "term": "culturally biased",
+      "source": "existing"
+    },
+    {
+      "term": "culturally responsive",
+      "source": "both"
+    },
+    {
+      "term": "culturally sensitive",
+      "source": "existing"
+    },
+    {
+      "term": "culturally sustainable",
+      "source": "existing"
+    },
+    {
+      "term": "culturally sustaining",
+      "source": "existing"
+    },
+    {
+      "term": "culture and ethnicity",
+      "source": "existing"
+    },
+    {
+      "term": "culture and race",
+      "source": "existing"
+    },
+    {
+      "term": "cultures and ethnicities",
+      "source": "existing"
+    },
+    {
+      "term": "cultures and races",
+      "source": "existing"
+    },
+    {
+      "term": "de colonization",
+      "source": "existing"
+    },
+    {
+      "term": "de colonize",
+      "source": "existing"
+    },
+    {
+      "term": "de colonized",
+      "source": "existing"
+    },
+    {
+      "term": "de colonizing",
+      "source": "existing"
+    },
+    {
+      "term": "de segregate",
+      "source": "existing"
+    },
+    {
+      "term": "de segregated",
+      "source": "existing"
+    },
+    {
+      "term": "de segregates",
+      "source": "existing"
+    },
+    {
+      "term": "de segregation",
+      "source": "existing"
+    },
+    {
+      "term": "decolonization",
+      "source": "existing"
+    },
+    {
+      "term": "decolonize",
+      "source": "existing"
+    },
+    {
+      "term": "decolonized",
+      "source": "existing"
+    },
+    {
+      "term": "decolonizing",
+      "source": "existing"
+    },
+    {
+      "term": "dei",
+      "source": "existing"
+    },
+    {
+      "term": "deij",
+      "source": "existing"
+    },
+    {
+      "term": "desegregate",
+      "source": "existing"
+    },
+    {
+      "term": "desegregated",
+      "source": "existing"
+    },
+    {
+      "term": "desegregates",
+      "source": "existing"
+    },
+    {
+      "term": "desegregation",
+      "source": "existing"
+    },
+    {
+      "term": "disabilities",
+      "source": "both"
+    },
+    {
+      "term": "disability",
+      "source": "both"
+    },
+    {
+      "term": "discriminate",
+      "source": "existing"
+    },
+    {
+      "term": "discriminated",
+      "source": "both"
+    },
+    {
+      "term": "discrimination",
+      "source": "both"
+    },
+    {
+      "term": "discriminatory",
+      "source": "both"
+    },
+    {
+      "term": "diverse background",
+      "source": "existing"
+    },
+    {
+      "term": "diverse backgrounds",
+      "source": "both"
+    },
+    {
+      "term": "diverse communities",
+      "source": "both"
+    },
+    {
+      "term": "diverse community",
+      "source": "both"
+    },
+    {
+      "term": "diverse group",
+      "source": "both"
+    },
+    {
+      "term": "diverse groups",
+      "source": "both"
+    },
+    {
+      "term": "diverse individual",
+      "source": "existing"
+    },
+    {
+      "term": "diverse individuals",
+      "source": "existing"
+    },
+    {
+      "term": "diverse status",
+      "source": "existing"
+    },
+    {
+      "term": "diverse statuses",
+      "source": "existing"
+    },
+    {
+      "term": "diverse voices",
+      "source": "existing"
+    },
+    {
+      "term": "diversified",
+      "source": "both"
+    },
+    {
+      "term": "diversify",
+      "source": "both"
+    },
+    {
+      "term": "diversifying",
+      "source": "both"
+    },
+    {
+      "term": "diversity",
+      "source": "leaked"
+    },
+    {
+      "term": "diversity and equity",
+      "source": "existing"
+    },
+    {
+      "term": "diversity and inclusion",
+      "source": "both"
+    },
+    {
+      "term": "diversity and inclusivity",
+      "source": "existing"
+    },
+    {
+      "term": "diversity awareness",
+      "source": "existing"
+    },
+    {
+      "term": "diversity equity",
+      "source": "existing"
+    },
+    {
+      "term": "divisiveness",
+      "source": "existing"
+    },
+    {
+      "term": "eco cultural",
+      "source": "existing"
+    },
+    {
+      "term": "ecocultural",
+      "source": "existing"
+    },
+    {
+      "term": "ehance the diversity",
+      "source": "existing"
+    },
+    {
+      "term": "ehancing diversity",
+      "source": "existing"
+    },
+    {
+      "term": "emphasis on diversity",
+      "source": "existing"
+    },
+    {
+      "term": "emphasize diversity",
+      "source": "existing"
+    },
+    {
+      "term": "emphasizing diversity",
+      "source": "existing"
+    },
+    {
+      "term": "encourage diversity",
+      "source": "existing"
+    },
+    {
+      "term": "encouraging diversity",
+      "source": "existing"
+    },
+    {
+      "term": "enhance diversity",
+      "source": "existing"
+    },
+    {
+      "term": "enhance the diversity",
+      "source": "both"
+    },
+    {
+      "term": "enhancing diversity",
+      "source": "both"
+    },
+    {
+      "term": "environment conscious",
+      "source": "existing"
+    },
+    {
+      "term": "environment consciousness",
+      "source": "existing"
+    },
+    {
+      "term": "environmental conscious",
+      "source": "existing"
+    },
+    {
+      "term": "environmental consciousness",
+      "source": "existing"
+    },
+    {
+      "term": "environmental equality",
+      "source": "existing"
+    },
+    {
+      "term": "environmental equity",
+      "source": "existing"
+    },
+    {
+      "term": "environmental governance",
+      "source": "existing"
+    },
+    {
+      "term": "environmental justice",
+      "source": "existing"
+    },
+    {
+      "term": "environmental social",
+      "source": "existing"
+    },
+    {
+      "term": "environmentally conscious",
+      "source": "existing"
+    },
+    {
+      "term": "environmentalsocial",
+      "source": "existing"
+    },
+    {
+      "term": "equal opportunities",
+      "source": "existing"
+    },
+    {
+      "term": "equal opportunity",
+      "source": "both"
+    },
+    {
+      "term": "equalities",
+      "source": "existing"
+    },
+    {
+      "term": "equality",
+      "source": "both"
+    },
+    {
+      "term": "equitable",
+      "source": "both"
+    },
+    {
+      "term": "equitable and inclusive",
+      "source": "existing"
+    },
+    {
+      "term": "equities",
+      "source": "existing"
+    },
+    {
+      "term": "equity",
+      "source": "both"
+    },
+    {
+      "term": "esg",
+      "source": "existing"
+    },
+    {
+      "term": "esg effort",
+      "source": "existing"
+    },
+    {
+      "term": "esg efforts",
+      "source": "existing"
+    },
+    {
+      "term": "esg initiative",
+      "source": "existing"
+    },
+    {
+      "term": "esg initiatives",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic and cultural",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic cultural",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic culture",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic cultures",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic diversity",
+      "source": "existing"
+    },
+    {
+      "term": "ethnic equity",
+      "source": "existing"
+    },
+    {
+      "term": "ethnicities and cultures",
+      "source": "existing"
+    },
+    {
+      "term": "ethnicity",
+      "source": "both"
+    },
+    {
+      "term": "ethnicity and culture",
+      "source": "existing"
+    },
+    {
+      "term": "excluded",
+      "source": "both"
+    },
+    {
+      "term": "exclusion",
+      "source": "existing"
+    },
+    {
+      "term": "exclusive",
+      "source": "existing"
+    },
+    {
+      "term": "feel seen and heard",
+      "source": "existing"
+    },
+    {
+      "term": "female",
+      "source": "both"
+    },
+    {
+      "term": "females",
+      "source": "both"
+    },
+    {
+      "term": "foster diversity",
+      "source": "existing"
+    },
+    {
+      "term": "fostering diversity",
+      "source": "existing"
+    },
+    {
+      "term": "fostering inclusive",
+      "source": "existing"
+    },
+    {
+      "term": "fostering inclusivity",
+      "source": "both"
+    },
+    {
+      "term": "fostering the diversity",
+      "source": "existing"
+    },
+    {
+      "term": "gender",
+      "source": "both"
+    },
+    {
+      "term": "gender diversity",
+      "source": "both"
+    },
+    {
+      "term": "genders",
+      "source": "both"
+    },
+    {
+      "term": "green infrastructure",
+      "source": "existing"
+    },
+    {
+      "term": "green new deal",
+      "source": "existing"
+    },
+    {
+      "term": "green society",
+      "source": "existing"
+    },
+    {
+      "term": "group equity",
+      "source": "existing"
+    },
+    {
+      "term": "group inclusivity",
+      "source": "existing"
+    },
+    {
+      "term": "hate speech",
+      "source": "both"
+    },
+    {
+      "term": "hispanic cultural",
+      "source": "existing"
+    },
+    {
+      "term": "hispanic culture",
+      "source": "existing"
+    },
+    {
+      "term": "hispanic cultures",
+      "source": "existing"
+    },
+    {
+      "term": "hispanic minority",
+      "source": "both"
+    },
+    {
+      "term": "hispanic people",
+      "source": "existing"
+    },
+    {
+      "term": "hispanic person",
+      "source": "existing"
+    },
+    {
+      "term": "hispanic voices",
+      "source": "existing"
+    },
+    {
+      "term": "historical racism",
+      "source": "existing"
+    },
+    {
+      "term": "historically",
+      "source": "both"
+    },
+    {
+      "term": "historically racist",
+      "source": "existing"
+    },
+    {
+      "term": "historically white",
+      "source": "existing"
+    },
+    {
+      "term": "implicit bias",
+      "source": "both"
+    },
+    {
+      "term": "implicit biased",
+      "source": "existing"
+    },
+    {
+      "term": "implicit biases",
+      "source": "both"
+    },
+    {
+      "term": "inclusion",
+      "source": "both"
+    },
+    {
+      "term": "inclusive",
+      "source": "both"
+    },
+    {
+      "term": "inclusiveness",
+      "source": "both"
+    },
+    {
+      "term": "inclusivity",
+      "source": "both"
+    },
+    {
+      "term": "increase diversity",
+      "source": "both"
+    },
+    {
+      "term": "increase the diversity",
+      "source": "both"
+    },
+    {
+      "term": "indigenous communities",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous community",
+      "source": "both"
+    },
+    {
+      "term": "indigenous individual",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous individuals",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous minorities",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous minority",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous people",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous person",
+      "source": "existing"
+    },
+    {
+      "term": "indigenous voices",
+      "source": "existing"
+    },
+    {
+      "term": "inequalities",
+      "source": "both"
+    },
+    {
+      "term": "inequality",
+      "source": "both"
+    },
+    {
+      "term": "inequitable",
+      "source": "both"
+    },
+    {
+      "term": "inequities",
+      "source": "both"
+    },
+    {
+      "term": "injustice",
+      "source": "existing"
+    },
+    {
+      "term": "injustices",
+      "source": "existing"
+    },
+    {
+      "term": "institutional",
+      "source": "both"
+    },
+    {
+      "term": "institutional racism",
+      "source": "existing"
+    },
+    {
+      "term": "institutional/zed racism",
+      "source": "existing"
+    },
+    {
+      "term": "institutionalize",
+      "source": "existing"
+    },
+    {
+      "term": "institutionalized",
+      "source": "existing"
+    },
+    {
+      "term": "institutionally",
+      "source": "existing"
+    },
+    {
+      "term": "institutionally racist",
+      "source": "existing"
+    },
+    {
+      "term": "inter racial",
+      "source": "existing"
+    },
+    {
+      "term": "inter racially",
+      "source": "existing"
+    },
+    {
+      "term": "intergenerational trauma",
+      "source": "existing"
+    },
+    {
+      "term": "interracial",
+      "source": "existing"
+    },
+    {
+      "term": "interracially",
+      "source": "existing"
+    },
+    {
+      "term": "intersectional",
+      "source": "existing"
+    },
+    {
+      "term": "intersectionality",
+      "source": "existing"
+    },
+    {
+      "term": "latina communities",
+      "source": "existing"
+    },
+    {
+      "term": "latina community",
+      "source": "existing"
+    },
+    {
+      "term": "latina individual",
+      "source": "existing"
+    },
+    {
+      "term": "latina individuals",
+      "source": "existing"
+    },
+    {
+      "term": "latina minorities",
+      "source": "existing"
+    },
+    {
+      "term": "latina minority",
+      "source": "existing"
+    },
+    {
+      "term": "latina people",
+      "source": "existing"
+    },
+    {
+      "term": "latina person",
+      "source": "existing"
+    },
+    {
+      "term": "latina voices",
+      "source": "existing"
+    },
+    {
+      "term": "latinx communities",
+      "source": "existing"
+    },
+    {
+      "term": "latinx community",
+      "source": "existing"
+    },
+    {
+      "term": "latinx individual",
+      "source": "existing"
+    },
+    {
+      "term": "latinx individuals",
+      "source": "existing"
+    },
+    {
+      "term": "latinx minorities",
+      "source": "existing"
+    },
+    {
+      "term": "latinx minority",
+      "source": "existing"
+    },
+    {
+      "term": "latinx people",
+      "source": "existing"
+    },
+    {
+      "term": "latinx person",
+      "source": "existing"
+    },
+    {
+      "term": "latinx voices",
+      "source": "existing"
+    },
+    {
+      "term": "lgbt",
+      "source": "both"
+    },
+    {
+      "term": "marginalization",
+      "source": "existing"
+    },
+    {
+      "term": "marginalize",
+      "source": "both"
+    },
+    {
+      "term": "marginalized",
+      "source": "both"
+    },
+    {
+      "term": "micro aggression",
+      "source": "existing"
+    },
+    {
+      "term": "micro aggressions",
+      "source": "existing"
+    },
+    {
+      "term": "micro aggressive",
+      "source": "existing"
+    },
+    {
+      "term": "micro aggressiveness",
+      "source": "existing"
+    },
+    {
+      "term": "microaggression",
+      "source": "existing"
+    },
+    {
+      "term": "microaggressions",
+      "source": "existing"
+    },
+    {
+      "term": "microaggressive",
+      "source": "existing"
+    },
+    {
+      "term": "microaggressiveness",
+      "source": "existing"
+    },
+    {
+      "term": "minorities",
+      "source": "both"
+    },
+    {
+      "term": "minority",
+      "source": "both"
+    },
+    {
+      "term": "multi ethnic",
+      "source": "existing"
+    },
+    {
+      "term": "multi ethnically",
+      "source": "existing"
+    },
+    {
+      "term": "multicultural",
+      "source": "both"
+    },
+    {
+      "term": "multiethnic",
+      "source": "existing"
+    },
+    {
+      "term": "multiethnically",
+      "source": "existing"
+    },
+    {
+      "term": "net zero",
+      "source": "existing"
+    },
+    {
+      "term": "netzero",
+      "source": "existing"
+    },
+    {
+      "term": "non black",
+      "source": "existing"
+    },
+    {
+      "term": "non white",
+      "source": "existing"
+    },
+    {
+      "term": "nonblack",
+      "source": "existing"
+    },
+    {
+      "term": "nonwhite",
+      "source": "existing"
+    },
+    {
+      "term": "oppressed",
+      "source": "existing"
+    },
+    {
+      "term": "oppression",
+      "source": "existing"
+    },
+    {
+      "term": "oppressive",
+      "source": "existing"
+    },
+    {
+      "term": "oppressiveness",
+      "source": "existing"
+    },
+    {
+      "term": "people of color",
+      "source": "existing"
+    },
+    {
+      "term": "poc",
+      "source": "existing"
+    },
+    {
+      "term": "pocx",
+      "source": "existing"
+    },
+    {
+      "term": "polarization",
+      "source": "both"
+    },
+    {
+      "term": "polarize",
+      "source": "existing"
+    },
+    {
+      "term": "political",
+      "source": "both"
+    },
+    {
+      "term": "politicization",
+      "source": "existing"
+    },
+    {
+      "term": "politicize",
+      "source": "existing"
+    },
+    {
+      "term": "predominately white",
+      "source": "existing"
+    },
+    {
+      "term": "prejudice",
+      "source": "both"
+    },
+    {
+      "term": "prejudices",
+      "source": "existing"
+    },
+    {
+      "term": "primarily white",
+      "source": "existing"
+    },
+    {
+      "term": "priviledges",
+      "source": "existing"
+    },
+    {
+      "term": "privilege",
+      "source": "existing"
+    },
+    {
+      "term": "privileged",
+      "source": "existing"
+    },
+    {
+      "term": "privileged white",
+      "source": "existing"
+    },
+    {
+      "term": "privileges",
+      "source": "both"
+    },
+    {
+      "term": "pro black",
+      "source": "existing"
+    },
+    {
+      "term": "pro white",
+      "source": "existing"
+    },
+    {
+      "term": "prob lack",
+      "source": "existing"
+    },
+    {
+      "term": "promoting diversity",
+      "source": "both"
+    },
+    {
+      "term": "race and culture",
+      "source": "existing"
+    },
+    {
+      "term": "race and ethnicity",
+      "source": "both"
+    },
+    {
+      "term": "race based",
+      "source": "existing"
+    },
+    {
+      "term": "racebased",
+      "source": "existing"
+    },
+    {
+      "term": "races and cultures",
+      "source": "existing"
+    },
+    {
+      "term": "races and ethnicities",
+      "source": "existing"
+    },
+    {
+      "term": "racial",
+      "source": "both"
+    },
+    {
+      "term": "racial and cultural",
+      "source": "existing"
+    },
+    {
+      "term": "racial and ethnic",
+      "source": "existing"
+    },
+    {
+      "term": "racial bias",
+      "source": "existing"
+    },
+    {
+      "term": "racial biases",
+      "source": "existing"
+    },
+    {
+      "term": "racial disparities",
+      "source": "existing"
+    },
+    {
+      "term": "racial disparity",
+      "source": "existing"
+    },
+    {
+      "term": "racial diversity",
+      "source": "both"
+    },
+    {
+      "term": "racial identity",
+      "source": "existing"
+    },
+    {
+      "term": "racial inequalities",
+      "source": "existing"
+    },
+    {
+      "term": "racial inequality",
+      "source": "both"
+    },
+    {
+      "term": "racial inequities",
+      "source": "existing"
+    },
+    {
+      "term": "racial inequity",
+      "source": "existing"
+    },
+    {
+      "term": "racial injustice",
+      "source": "existing"
+    },
+    {
+      "term": "racial injustices",
+      "source": "existing"
+    },
+    {
+      "term": "racial justice",
+      "source": "both"
+    },
+    {
+      "term": "racial minorities",
+      "source": "existing"
+    },
+    {
+      "term": "racial minority",
+      "source": "existing"
+    },
+    {
+      "term": "racial oppression",
+      "source": "existing"
+    },
+    {
+      "term": "racial prejudice",
+      "source": "existing"
+    },
+    {
+      "term": "racial prejudices",
+      "source": "existing"
+    },
+    {
+      "term": "racial segregation",
+      "source": "existing"
+    },
+    {
+      "term": "racial socialization",
+      "source": "existing"
+    },
+    {
+      "term": "racial solidarity",
+      "source": "existing"
+    },
+    {
+      "term": "racial stereotypes",
+      "source": "existing"
+    },
+    {
+      "term": "racial violence",
+      "source": "existing"
+    },
+    {
+      "term": "racially",
+      "source": "both"
+    },
+    {
+      "term": "racially and culturally",
+      "source": "existing"
+    },
+    {
+      "term": "racially bias",
+      "source": "existing"
+    },
+    {
+      "term": "racially biased",
+      "source": "existing"
+    },
+    {
+      "term": "racially oppressed",
+      "source": "existing"
+    },
+    {
+      "term": "racism",
+      "source": "both"
+    },
+    {
+      "term": "racist",
+      "source": "existing"
+    },
+    {
+      "term": "reparation",
+      "source": "existing"
+    },
+    {
+      "term": "reparations",
+      "source": "existing"
+    },
+    {
+      "term": "safe space",
+      "source": "existing"
+    },
+    {
+      "term": "safe spaces",
+      "source": "existing"
+    },
+    {
+      "term": "segregated",
+      "source": "existing"
+    },
+    {
+      "term": "segregated ethnicities",
+      "source": "existing"
+    },
+    {
+      "term": "segregated ethnicity",
+      "source": "existing"
+    },
+    {
+      "term": "segregated race",
+      "source": "existing"
+    },
+    {
+      "term": "segregated races",
+      "source": "existing"
+    },
+    {
+      "term": "segregation",
+      "source": "existing"
+    },
+    {
+      "term": "sense of belonging",
+      "source": "both"
+    },
+    {
+      "term": "sense of belongingness",
+      "source": "existing"
+    },
+    {
+      "term": "sexual preferences",
+      "source": "both"
+    },
+    {
+      "term": "social environmental",
+      "source": "existing"
+    },
+    {
+      "term": "social justice",
+      "source": "both"
+    },
+    {
+      "term": "socialenvironmental",
+      "source": "existing"
+    },
+    {
+      "term": "socio cultural",
+      "source": "both"
+    },
+    {
+      "term": "socio economic",
+      "source": "both"
+    },
+    {
+      "term": "sociocultural",
+      "source": "both"
+    },
+    {
+      "term": "socioeconomic",
+      "source": "existing"
+    },
+    {
+      "term": "socioeconomic status",
+      "source": "leaked"
+    },
+    {
+      "term": "status",
+      "source": "existing"
+    },
+    {
+      "term": "statuses",
+      "source": "existing"
+    },
+    {
+      "term": "stereotype",
+      "source": "existing"
+    },
+    {
+      "term": "stereotypes",
+      "source": "both"
+    },
+    {
+      "term": "stereotypical",
+      "source": "existing"
+    },
+    {
+      "term": "stereotyping",
+      "source": "existing"
+    },
+    {
+      "term": "structural racism",
+      "source": "existing"
+    },
+    {
+      "term": "structurally racist",
+      "source": "existing"
+    },
+    {
+      "term": "system of oppression",
+      "source": "existing"
+    },
+    {
+      "term": "systematic oppression",
+      "source": "existing"
+    },
+    {
+      "term": "systematically oppressed",
+      "source": "existing"
+    },
+    {
+      "term": "systemic",
+      "source": "both"
+    },
+    {
+      "term": "systemic oppression",
+      "source": "existing"
+    },
+    {
+      "term": "systemic racism",
+      "source": "existing"
+    },
+    {
+      "term": "systemical",
+      "source": "existing"
+    },
+    {
+      "term": "systemically",
+      "source": "existing"
+    },
+    {
+      "term": "systemically oppressed",
+      "source": "existing"
+    },
+    {
+      "term": "systemically racist",
+      "source": "existing"
+    },
+    {
+      "term": "systems of oppression",
+      "source": "existing"
+    },
+    {
+      "term": "systems of power",
+      "source": "existing"
+    },
+    {
+      "term": "tokenistic",
+      "source": "existing"
+    },
+    {
+      "term": "tokensim",
+      "source": "existing"
+    },
+    {
+      "term": "trans ethnic",
+      "source": "existing"
+    },
+    {
+      "term": "transethnic",
+      "source": "existing"
+    },
+    {
+      "term": "trauma",
+      "source": "both"
+    },
+    {
+      "term": "traumatic",
+      "source": "existing"
+    },
+    {
+      "term": "under appreciated",
+      "source": "both"
+    },
+    {
+      "term": "under appreciation",
+      "source": "existing"
+    },
+    {
+      "term": "under privilege",
+      "source": "existing"
+    },
+    {
+      "term": "under privileged",
+      "source": "existing"
+    },
+    {
+      "term": "under representation",
+      "source": "existing"
+    },
+    {
+      "term": "under represented",
+      "source": "both"
+    },
+    {
+      "term": "under served",
+      "source": "both"
+    },
+    {
+      "term": "under serving",
+      "source": "existing"
+    },
+    {
+      "term": "under valued",
+      "source": "existing"
+    },
+    {
+      "term": "under valuing",
+      "source": "existing"
+    },
+    {
+      "term": "underappreciated",
+      "source": "existing"
+    },
+    {
+      "term": "underappreciation",
+      "source": "existing"
+    },
+    {
+      "term": "underprivilege",
+      "source": "existing"
+    },
+    {
+      "term": "underprivileged",
+      "source": "existing"
+    },
+    {
+      "term": "underrepresentation",
+      "source": "both"
+    },
+    {
+      "term": "underrepresented",
+      "source": "both"
+    },
+    {
+      "term": "underserved",
+      "source": "both"
+    },
+    {
+      "term": "underserving",
+      "source": "existing"
+    },
+    {
+      "term": "undervalued",
+      "source": "both"
+    },
+    {
+      "term": "undervaluing",
+      "source": "existing"
+    },
+    {
+      "term": "unequal opportunities",
+      "source": "existing"
+    },
+    {
+      "term": "unequal opportunity",
+      "source": "existing"
+    },
+    {
+      "term": "unjust",
+      "source": "existing"
+    },
+    {
+      "term": "victim",
+      "source": "both"
+    },
+    {
+      "term": "victimhood",
+      "source": "existing"
+    },
+    {
+      "term": "victimized",
+      "source": "existing"
+    },
+    {
+      "term": "victims",
+      "source": "existing"
+    },
+    {
+      "term": "voices are acknowledged",
+      "source": "existing"
+    },
+    {
+      "term": "voices heard",
+      "source": "existing"
+    },
+    {
+      "term": "voices matter",
+      "source": "existing"
+    },
+    {
+      "term": "welcoming environment",
+      "source": "existing"
+    },
+    {
+      "term": "white colonialism",
+      "source": "existing"
+    },
+    {
+      "term": "white colonization",
+      "source": "existing"
+    },
+    {
+      "term": "white colonizer",
+      "source": "existing"
+    },
+    {
+      "term": "white colonizers",
+      "source": "existing"
+    },
+    {
+      "term": "white fragility",
+      "source": "existing"
+    },
+    {
+      "term": "white historically",
+      "source": "existing"
+    },
+    {
+      "term": "white nationalism",
+      "source": "existing"
+    },
+    {
+      "term": "white nationalist",
+      "source": "existing"
+    },
+    {
+      "term": "white people",
+      "source": "existing"
+    },
+    {
+      "term": "white person",
+      "source": "existing"
+    },
+    {
+      "term": "white privilege",
+      "source": "existing"
+    },
+    {
+      "term": "white serving",
+      "source": "existing"
+    },
+    {
+      "term": "white supremacy",
+      "source": "existing"
+    },
+    {
+      "term": "whiteness",
+      "source": "existing"
+    },
+    {
+      "term": "women",
+      "source": "both"
+    },
+    {
+      "term": "women and underrepresented",
+      "source": "both"
+    }
+  ]
+}

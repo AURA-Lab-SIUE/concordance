@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Concordance",
+  "version": "0.1.0",
+  "identifier": "app.aura-lab.concordance",
+  "build": {
+    "frontendDist": "../src"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Concordance",
+        "width": 1100,
+        "height": 750,
+        "minWidth": 800,
+        "minHeight": 500,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": false,
+    "targets": "all",
+    "publisher": "SIM DAD LLC",
+    "copyright": "Copyright 2026 AURA Lab at SIUE in collaboration with SIM DAD LLC. MIT License.",
+    "category": "Productivity",
+    "shortDescription": "Topic-agnostic term checker",
+    "longDescription": "Check text against a wordlist, or bag-of-words any document into a custom list. Runs entirely on your computer; no upload, no AI. Built by AURA Lab at SIUE in collaboration with SIM DAD LLC.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

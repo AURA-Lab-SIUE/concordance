@@ -1,0 +1,32 @@
+[package]
+name = "concordance"
+version = "0.1.0"
+description = "AURA Lab Concordance: topic-agnostic term checker"
+authors = ["Alex P. Leith <alex.leith@siue.edu>", "AURA Lab at SIUE", "SIM DAD LLC"]
+edition = "2021"
+rust-version = "1.77"
+license = "MIT"
+repository = "https://github.com/aura-lab-siue/concordance"
+
+[lib]
+name = "concordance_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+regex = "1"
+stop-words = "0.8"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
