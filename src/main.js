@@ -10,6 +10,24 @@ const invoke = (...args) =>
       })(...args);
 
 // --------------------------------------------------------------------------
+// Tab switching
+// --------------------------------------------------------------------------
+document.querySelectorAll(".tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-selected", b === btn ? "true" : "false");
+    });
+    const target = btn.dataset.tab;
+    document.querySelectorAll(".tab-panel").forEach((p) => {
+      const match = p.id === `tab-${target}`;
+      p.classList.toggle("active", match);
+      p.hidden = !match;
+    });
+  });
+});
+
+// --------------------------------------------------------------------------
 // Document parsing (PDF / DOCX / TXT)
 // --------------------------------------------------------------------------
 async function extractTextFromFile(file) {

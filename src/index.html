@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Concordance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
     <script>
@@ -20,13 +26,17 @@
       <p class="subtitle">A topic-agnostic term checker. AURA Lab in collaboration with SIM DAD LLC.</p>
     </header>
 
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="extract" role="tab" aria-selected="true">Extract</button>
+      <button class="tab" data-tab="check" role="tab" aria-selected="false">Check</button>
+    </nav>
+
     <main>
       <!-- ====================== EXTRACT ====================== -->
-      <section class="card">
-        <h2>Extract a wordlist</h2>
+      <section id="tab-extract" class="tab-panel active" role="tabpanel">
         <p class="lede">Paste or upload a document. Concordance ranks its terms by frequency.</p>
 
-        <textarea id="extract-text" rows="8" placeholder="Paste a document, or upload one below..."></textarea>
+        <textarea id="extract-text" rows="10" placeholder="Paste a document, or upload one below..."></textarea>
 
         <div class="row">
           <input type="file" id="extract-doc-file" accept=".pdf,.docx,.txt,.md" hidden />
@@ -66,11 +76,9 @@
       </section>
 
       <!-- ====================== CHECK ====================== -->
-      <section class="card">
-        <h2>Check text against a wordlist</h2>
+      <section id="tab-check" class="tab-panel" role="tabpanel" hidden>
         <p class="lede">
-          Provide a wordlist (upload a JSON file, or use the one you just extracted above),
-          then scan your text.
+          Provide a wordlist (upload a JSON, or use the one you just extracted), then scan your text.
         </p>
 
         <div class="row">
