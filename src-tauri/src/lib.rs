@@ -8,7 +8,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             engine::check_text,
             engine::extract_preset,
-            engine::load_bundled_preset,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

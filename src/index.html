@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Concordance</title>
     <link rel="stylesheet" href="style.css" />
-    <!-- PDF.js and mammoth.js for in-browser document parsing. v0.2 will bundle these locally. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
     <script>
       if (window.pdfjsLib) {
@@ -17,140 +16,105 @@
   </head>
   <body>
     <header>
-      <div class="brand">
-        <h1>Concordance</h1>
-        <p class="subtitle">Topic-agnostic term checker. AURA Lab in collaboration with SIM DAD LLC.</p>
-      </div>
+      <h1>Concordance</h1>
+      <p class="subtitle">A topic-agnostic term checker. AURA Lab in collaboration with SIM DAD LLC.</p>
     </header>
 
-    <nav class="tabs" role="tablist">
-      <button class="tab active" data-tab="check" role="tab" aria-selected="true">Check</button>
-      <button class="tab" data-tab="extract" role="tab" aria-selected="false">Extract</button>
-    </nav>
-
     <main>
-      <!-- ====================== CHECK MODE ====================== -->
-      <section id="tab-check" class="tab-panel active" role="tabpanel">
-        <fieldset>
-          <legend>Wordlist</legend>
-          <label class="radio-row">
-            <input type="radio" name="preset" value="bundled-nsf" checked />
-            <span>
-              <strong>NSF 2025 Leaked</strong>
-              <small>Bundled. 104 terms. The NSF leaked decision-tree list.</small>
-            </span>
-          </label>
-          <label class="radio-row">
-            <input type="radio" name="preset" value="bundled-aura" />
-            <span>
-              <strong>AURA Lab Extended</strong>
-              <small>Bundled. 447 terms. Leaked list plus community-compiled defensive additions.</small>
-            </span>
-          </label>
-          <label class="radio-row">
-            <input type="radio" name="preset" value="custom" />
-            <span>
-              <strong>Custom preset (JSON)</strong>
-              <small>Upload your own preset file in Concordance JSON format.</small>
-              <input type="file" id="custom-preset-file" accept=".json" hidden />
-              <button type="button" id="custom-preset-btn" class="file-btn">Choose file...</button>
-              <span id="custom-preset-status" class="file-status"></span>
-            </span>
-          </label>
-          <label class="radio-row">
-            <input type="radio" name="preset" value="extracted" />
-            <span>
-              <strong>Extract from a governing document</strong>
-              <small>Upload a CFP, RFP, job posting, or any governing text. Concordance will tokenize it into a preset.</small>
-              <input type="file" id="extract-source-file" accept=".pdf,.docx,.txt" hidden />
-              <button type="button" id="extract-source-btn" class="file-btn">Choose file...</button>
-              <span id="extract-source-status" class="file-status"></span>
-            </span>
-          </label>
-        </fieldset>
+      <!-- ====================== EXTRACT ====================== -->
+      <section class="card">
+        <h2>Extract a wordlist</h2>
+        <p class="lede">Paste or upload a document. Concordance ranks its terms by frequency.</p>
 
-        <fieldset>
-          <legend>Mode</legend>
-          <label class="radio-row">
-            <input type="radio" name="mode" value="flag-if-found" checked />
-            <span>
-              <strong>Flag if found</strong>
-              <small>Hits are terms present in your text. Use for compliance-style review.</small>
-            </span>
-          </label>
-          <label class="radio-row">
-            <input type="radio" name="mode" value="flag-if-missing" />
-            <span>
-              <strong>Flag if missing</strong>
-              <small>Hits are wordlist terms NOT in your text. Use to check that your proposal uses the funder's vocabulary.</small>
-            </span>
-          </label>
-        </fieldset>
+        <textarea id="extract-text" rows="8" placeholder="Paste a document, or upload one below..."></textarea>
 
-        <fieldset>
-          <legend>Text to check</legend>
-          <textarea id="check-text" rows="12" placeholder="Paste your proposal text, manuscript draft, or any content to scan..."></textarea>
-          <div class="upload-line">
-            <input type="file" id="check-doc-file" accept=".pdf,.docx,.txt" hidden />
-            <button type="button" id="check-doc-btn" class="file-btn">Or upload a document (PDF, DOCX, TXT)</button>
-            <span id="check-doc-status" class="file-status"></span>
-          </div>
-        </fieldset>
-
-        <div class="actions">
-          <button type="button" id="check-run" class="primary">Check</button>
-          <button type="button" id="check-clear" class="secondary">Clear</button>
+        <div class="row">
+          <input type="file" id="extract-doc-file" accept=".pdf,.docx,.txt,.md" hidden />
+          <button type="button" id="extract-doc-btn" class="ghost">Upload document</button>
+          <span id="extract-doc-status" class="status"></span>
         </div>
 
-        <div id="check-results" class="results"></div>
-      </section>
-
-      <!-- ====================== EXTRACT MODE ====================== -->
-      <section id="tab-extract" class="tab-panel" role="tabpanel" hidden>
-        <fieldset>
-          <legend>Source document</legend>
-          <textarea id="extract-text" rows="10" placeholder="Paste a CFP, RFP, job posting, journal scope statement, or any governing document..."></textarea>
-          <div class="upload-line">
-            <input type="file" id="extract-doc-file" accept=".pdf,.docx,.txt" hidden />
-            <button type="button" id="extract-doc-btn" class="file-btn">Or upload a document (PDF, DOCX, TXT)</button>
-            <span id="extract-doc-status" class="file-status"></span>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Options</legend>
-          <div class="option-grid">
-            <label>
-              <span>Language (for stop-words)</span>
-              <select id="extract-lang">
-                <option value="english" selected>English</option>
-                <option value="spanish">Spanish</option>
-                <option value="french">French</option>
-                <option value="german">German</option>
-                <option value="portuguese">Portuguese</option>
-                <option value="italian">Italian</option>
-                <option value="dutch">Dutch</option>
-              </select>
-            </label>
-            <label>
-              <span>Minimum frequency</span>
-              <input type="number" id="extract-min-freq" value="2" min="1" max="100" />
-            </label>
-          </div>
-        </fieldset>
+        <div class="row options">
+          <label class="check">
+            <input type="checkbox" id="extract-stopwords" checked />
+            <span>Remove stop words</span>
+          </label>
+          <label class="inline" id="extract-lang-wrap">
+            <span>Language</span>
+            <select id="extract-lang">
+              <option value="english" selected>English</option>
+              <option value="spanish">Spanish</option>
+              <option value="french">French</option>
+              <option value="german">German</option>
+              <option value="portuguese">Portuguese</option>
+              <option value="italian">Italian</option>
+              <option value="dutch">Dutch</option>
+            </select>
+          </label>
+          <label class="inline">
+            <span>Minimum frequency</span>
+            <input type="number" id="extract-min-freq" value="2" min="1" max="100" />
+          </label>
+        </div>
 
         <div class="actions">
-          <button type="button" id="extract-run" class="primary">Extract preset</button>
-          <button type="button" id="extract-clear" class="secondary">Clear</button>
+          <button type="button" id="extract-run" class="primary">Extract wordlist</button>
+          <button type="button" id="extract-clear" class="ghost">Clear</button>
         </div>
 
         <div id="extract-results" class="results"></div>
+      </section>
+
+      <!-- ====================== CHECK ====================== -->
+      <section class="card">
+        <h2>Check text against a wordlist</h2>
+        <p class="lede">
+          Provide a wordlist (upload a JSON file, or use the one you just extracted above),
+          then scan your text.
+        </p>
+
+        <div class="row">
+          <span class="row-label">Wordlist</span>
+          <input type="file" id="check-preset-file" accept=".json" hidden />
+          <button type="button" id="check-preset-btn" class="ghost">Upload JSON</button>
+          <button type="button" id="check-use-extracted" class="ghost" disabled>Use extracted wordlist</button>
+          <span id="check-preset-status" class="status"></span>
+        </div>
+
+        <textarea id="check-text" rows="10" placeholder="Paste text to scan, or upload below..."></textarea>
+
+        <div class="row">
+          <input type="file" id="check-doc-file" accept=".pdf,.docx,.txt,.md" hidden />
+          <button type="button" id="check-doc-btn" class="ghost">Upload document</button>
+          <span id="check-doc-status" class="status"></span>
+        </div>
+
+        <div class="row mode-row">
+          <span class="row-label">Mode</span>
+          <label class="radio">
+            <input type="radio" name="mode" value="flag-if-found" checked />
+            <span>Find terms <small>(hits = terms present)</small></span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="mode" value="flag-if-missing" />
+            <span>Find missing terms <small>(hits = terms absent)</small></span>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="check-run" class="primary">Check</button>
+          <button type="button" id="check-clear" class="ghost">Clear</button>
+        </div>
+
+        <div id="check-results" class="results"></div>
       </section>
     </main>
 
     <footer>
       <small>
-        Built by AURA Lab at SIUE. Distributed in collaboration with SIM DAD LLC. Runs locally. No upload. No AI.
+        Built by <a href="https://aura-lab-siue.github.io/">AURA Lab at SIUE</a>.
+        Distributed in collaboration with <a href="https://simdadllc.com">SIM DAD LLC</a>.
+        Runs locally. No upload. No AI.
       </small>
     </footer>
 

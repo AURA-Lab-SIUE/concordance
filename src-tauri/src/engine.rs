@@ -1,38 +1,20 @@
 //! Concordance engine.
 //!
-//! Ported from the AURA Lab Banned Word Checker `core.py` engine, generalized
-//! for the topic-agnostic case (no 3-stage decision tree; just a flat scan with
-//! mode toggle and a new "extract preset from document" capability).
+//! Topic-agnostic term checker. Two Tauri commands:
 //!
-//! Three Tauri commands:
+//! - [`check_text`]      scan text against a user-supplied preset. Two modes:
+//!                       `flag-if-found` (hits = terms present in text) and
+//!                       `flag-if-missing` (hits = terms absent from text).
+//! - [`extract_preset`]  tokenize input text, optionally drop stop-words,
+//!                       return ranked term/frequency list as a new preset.
 //!
-//! - [`check_text`]      scan text against a preset's term list; supports
-//!                       `flag-if-found` (banned-word-checker style) and
-//!                       `flag-if-missing` (CFP-alignment style) modes.
-//! - [`extract_preset`]  tokenize input text, drop stop-words, return ranked
-//!                       term/frequency list as a new preset.
-//! - [`load_bundled_preset`] load one of the presets bundled with the app
-//!                           (`nsf-2025-leaked` or `aura-lab-extended`).
-//!
-//! Engine is plain text in -> structured result out. PDF/DOCX/etc. parsing
-//! happens in the frontend (PDF.js + mammoth.js) so the Rust side stays small.
+//! Concordance is **design-agnostic**: no wordlists ship in the binary. The
+//! example presets at `data/presets/` (NSF leaked, AURA Lab extended) are
+//! repo artifacts for users to download separately, not built-in defaults.
 
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-
-// ---------------------------------------------------------------------------
-// Bundled presets (compiled into the binary; same JSON as ../data/presets/)
-// ---------------------------------------------------------------------------
-
-const PRESET_NSF_LEAKED: &str =
-    include_str!("../../data/presets/nsf-2025-leaked.json");
-const PRESET_AURA_EXTENDED: &str =
-    include_str!("../../data/presets/aura-lab-extended.json");
-
-// ---------------------------------------------------------------------------
-// Data structures
-// ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PresetTerm {
@@ -61,47 +43,28 @@ pub struct Hit {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CheckResult {
-    /// `"flag-if-found"` or `"flag-if-missing"`.
     pub mode: String,
-    /// Terms that triggered the mode (hits when `flag-if-found`,
-    /// missing terms when `flag-if-missing`). Sorted by count desc, term asc.
     pub hits: Vec<Hit>,
-    /// Total terms in the preset that were scanned.
     pub total_terms_checked: usize,
-    /// `true` if nothing triggered the mode (no flagged-if-found hits OR
-    /// no flagged-if-missing misses, depending on mode).
     pub clean: bool,
-    /// Length of input text in bytes (UTF-8).
     pub text_length: usize,
 }
-
-// ---------------------------------------------------------------------------
-// Pattern compilation + scanning
-// ---------------------------------------------------------------------------
 
 const CONTEXT_WINDOW: usize = 40;
 const MAX_CONTEXTS_PER_TERM: usize = 3;
 
-/// Compile preset terms into case-insensitive, word-bounded regexes.
-/// Phrase terms (containing spaces) match across whitespace runs (incl. newlines).
 fn compile_patterns(terms: &[PresetTerm]) -> Vec<(Regex, &PresetTerm)> {
     let mut out = Vec::with_capacity(terms.len());
     for entry in terms {
         let escaped = regex::escape(&entry.term).replace(' ', r"\s+");
         let pattern = format!(r"(?i)\b{}\b", escaped);
-        match Regex::new(&pattern) {
-            Ok(re) => out.push((re, entry)),
-            Err(_) => {
-                // Skip malformed terms silently. In practice should never fire
-                // for sane preset data since we escape input.
-                continue;
-            }
+        if let Ok(re) = Regex::new(&pattern) {
+            out.push((re, entry));
         }
     }
     out
 }
 
-/// Walk byte index back/forward to the nearest UTF-8 char boundary.
 fn snap_to_char_boundary(s: &str, mut idx: usize, forward: bool) -> usize {
     if idx >= s.len() {
         return s.len();
@@ -128,16 +91,9 @@ fn extract_contexts(text: &str, re: &Regex) -> Vec<String> {
         if contexts.len() >= MAX_CONTEXTS_PER_TERM {
             break;
         }
-        let start = snap_to_char_boundary(
-            text,
-            m.start().saturating_sub(CONTEXT_WINDOW),
-            false,
-        );
-        let end = snap_to_char_boundary(
-            text,
-            (m.end() + CONTEXT_WINDOW).min(text.len()),
-            true,
-        );
+        let start = snap_to_char_boundary(text, m.start().saturating_sub(CONTEXT_WINDOW), false);
+        let end =
+            snap_to_char_boundary(text, (m.end() + CONTEXT_WINDOW).min(text.len()), true);
         let mut snippet = text[start..end].replace('\n', " ").trim().to_string();
         if start > 0 {
             snippet = format!("... {}", snippet);
@@ -174,10 +130,6 @@ fn scan(text: &str, patterns: &[(Regex, &PresetTerm)]) -> Vec<Hit> {
     hits
 }
 
-// ---------------------------------------------------------------------------
-// Tauri commands
-// ---------------------------------------------------------------------------
-
 #[tauri::command]
 pub fn check_text(
     text: String,
@@ -194,11 +146,9 @@ pub fn check_text(
 
     let (hits, clean) = match mode.as_str() {
         "flag-if-missing" => {
-            // "Missing" = preset terms NOT present in text. Useful for CFP-alignment:
-            // these are funder-vocabulary terms the proposal isn't using.
             let found: std::collections::HashSet<&str> =
                 hits_found.iter().map(|h| h.term.as_str()).collect();
-            let missing: Vec<Hit> = preset
+            let mut missing: Vec<Hit> = preset
                 .terms
                 .iter()
                 .filter(|t| !found.contains(t.term.as_str()))
@@ -209,13 +159,10 @@ pub fn check_text(
                     contexts: Vec::new(),
                 })
                 .collect();
-            let clean = missing.is_empty();
-            // Sort missing alphabetically (no count to sort on).
-            let mut missing = missing;
             missing.sort_by(|a, b| a.term.cmp(&b.term));
+            let clean = missing.is_empty();
             (missing, clean)
         }
-        // Default: "flag-if-found"
         _ => {
             let clean = hits_found.is_empty();
             (hits_found, clean)
@@ -236,14 +183,18 @@ pub fn extract_preset(
     text: String,
     min_frequency: usize,
     language: String,
+    remove_stop_words: bool,
 ) -> Result<Preset, String> {
-    let stops = stopword_set(&language);
+    let stops = if remove_stop_words {
+        stopword_set(&language)
+    } else {
+        std::collections::HashSet::new()
+    };
     let token_re = Regex::new(r"\b[\p{L}][\p{L}\p{M}'\-]*\b")
         .map_err(|e| format!("token regex: {}", e))?;
     let mut counts: HashMap<String, usize> = HashMap::new();
     for m in token_re.find_iter(&text) {
         let raw = m.as_str().to_lowercase();
-        // Skip very short tokens and pure-numeric runs
         if raw.len() < 3 {
             continue;
         }
@@ -257,6 +208,11 @@ pub fn extract_preset(
         counts.into_iter().filter(|(_, c)| *c >= min).collect();
     entries.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
 
+    let stop_label = if remove_stop_words {
+        format!(" stop-words removed ({})", language)
+    } else {
+        String::new()
+    };
     let terms = entries
         .into_iter()
         .map(|(term, count)| PresetTerm {
@@ -268,34 +224,17 @@ pub fn extract_preset(
     Ok(Preset {
         name: "Extracted Preset".to_string(),
         description: Some(format!(
-            "Extracted from input document via tokenize + stop-words ({}). \
-             Terms ranked by frequency (descending). \
-             min_frequency={}.",
-            language, min
+            "Extracted from input document via tokenization + frequency ranking.{} min_frequency={}.",
+            stop_label, min
         )),
         version: Some("0.1.0".to_string()),
         terms,
     })
 }
 
-#[tauri::command]
-pub fn load_bundled_preset(name: String) -> Result<Preset, String> {
-    let raw = match name.as_str() {
-        "nsf-2025-leaked" => PRESET_NSF_LEAKED,
-        "aura-lab-extended" => PRESET_AURA_EXTENDED,
-        other => return Err(format!("unknown bundled preset: {}", other)),
-    };
-    serde_json::from_str::<Preset>(raw).map_err(|e| format!("bundled preset parse error: {}", e))
-}
-
-// ---------------------------------------------------------------------------
-// Stop-words
-// ---------------------------------------------------------------------------
-
 fn stopword_set(language: &str) -> std::collections::HashSet<String> {
     use stop_words::{get, LANGUAGE};
     let lang = match language.to_lowercase().as_str() {
-        "en" | "english" | "" => LANGUAGE::English,
         "es" | "spanish" => LANGUAGE::Spanish,
         "fr" | "french" => LANGUAGE::French,
         "de" | "german" => LANGUAGE::German,
@@ -307,10 +246,6 @@ fn stopword_set(language: &str) -> std::collections::HashSet<String> {
     get(lang).into_iter().collect()
 }
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -321,35 +256,24 @@ mod tests {
             description: None,
             version: None,
             terms: vec![
-                PresetTerm {
-                    term: "diversity".to_string(),
-                    source: Some("leaked".to_string()),
-                },
-                PresetTerm {
-                    term: "social justice".to_string(),
-                    source: Some("both".to_string()),
-                },
-                PresetTerm {
-                    term: "absent".to_string(),
-                    source: Some("existing".to_string()),
-                },
+                PresetTerm { term: "diversity".to_string(), source: Some("user".to_string()) },
+                PresetTerm { term: "social justice".to_string(), source: Some("user".to_string()) },
+                PresetTerm { term: "absent".to_string(), source: Some("user".to_string()) },
             ],
         })
         .unwrap()
     }
 
     #[test]
-    fn flag_if_found_basic() {
+    fn flag_if_found_matches_with_flexible_whitespace() {
         let result = check_text(
             "Our proposal emphasizes diversity and social  justice in outcomes.".to_string(),
             tiny_preset(),
             "flag-if-found".to_string(),
         )
         .unwrap();
-        assert_eq!(result.mode, "flag-if-found");
         assert_eq!(result.total_terms_checked, 3);
         assert!(!result.clean);
-        // Both "diversity" and "social  justice" (extra whitespace) should hit.
         assert_eq!(result.hits.len(), 2);
         let terms: Vec<&str> = result.hits.iter().map(|h| h.term.as_str()).collect();
         assert!(terms.contains(&"diversity"));
@@ -357,45 +281,55 @@ mod tests {
     }
 
     #[test]
-    fn flag_if_missing_inverts() {
+    fn flag_if_missing_returns_absent_terms() {
         let result = check_text(
             "Our proposal mentions diversity and social justice but nothing else.".to_string(),
             tiny_preset(),
             "flag-if-missing".to_string(),
         )
         .unwrap();
-        assert_eq!(result.mode, "flag-if-missing");
-        // "absent" should be the only missing term.
         assert_eq!(result.hits.len(), 1);
         assert_eq!(result.hits[0].term, "absent");
-        assert!(!result.clean);
     }
 
     #[test]
-    fn extract_preset_drops_stopwords_and_counts() {
+    fn extract_preset_with_stop_words_removed() {
         let preset = extract_preset(
             "The reviewer praised the proposal. The proposal addressed accessibility.".to_string(),
             1,
             "english".to_string(),
+            true,
         )
         .unwrap();
         let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
-        // "the" is a stop-word, should be absent.
         assert!(!terms.contains(&"the"));
-        // "proposal" appears twice, should be top.
         assert_eq!(preset.terms[0].term, "proposal");
     }
 
     #[test]
-    fn load_bundled_preset_works() {
-        let nsf = load_bundled_preset("nsf-2025-leaked".to_string()).unwrap();
-        assert!(!nsf.terms.is_empty());
-        let aura = load_bundled_preset("aura-lab-extended".to_string()).unwrap();
-        assert!(aura.terms.len() >= nsf.terms.len());
+    fn extract_preset_keeps_stop_words_when_disabled() {
+        let preset = extract_preset(
+            "The reviewer praised the proposal.".to_string(),
+            1,
+            "english".to_string(),
+            false,
+        )
+        .unwrap();
+        let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
+        assert!(terms.contains(&"the"));
     }
 
     #[test]
-    fn unknown_bundled_preset_errors() {
-        assert!(load_bundled_preset("nonexistent".to_string()).is_err());
+    fn empty_preset_returns_empty() {
+        let empty = serde_json::to_string(&Preset {
+            name: "empty".to_string(),
+            description: None,
+            version: None,
+            terms: vec![],
+        })
+        .unwrap();
+        let result = check_text("anything goes here".to_string(), empty, "flag-if-found".to_string()).unwrap();
+        assert_eq!(result.total_terms_checked, 0);
+        assert!(result.clean);
     }
 }
