@@ -5,8 +5,10 @@
 //! - [`check_text`]      scan text against a user-supplied preset. Two modes:
 //!                       `flag-if-found` (hits = terms present in text) and
 //!                       `flag-if-missing` (hits = terms absent from text).
-//! - [`extract_preset`]  tokenize input text, optionally drop stop-words,
-//!                       return ranked term/frequency list as a new preset.
+//! - [`extract_preset`]  YAKE keyword extraction (Campos et al. 2018, KAIS).
+//!                       Single-document, unsupervised, no reference corpus.
+//!                       Returns top-N key phrases ranked by YAKE score
+//!                       (lower = more important).
 //!
 //! Concordance is **design-agnostic**: no wordlists ship in the binary. The
 //! example presets at `data/presets/` (NSF leaked, AURA Lab extended) are
@@ -14,7 +16,7 @@
 
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use yake_rust::{get_n_best, Config as YakeConfig, StopWords};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PresetTerm {
@@ -181,69 +183,60 @@ pub fn check_text(
 #[tauri::command]
 pub fn extract_preset(
     text: String,
-    min_frequency: usize,
+    top_n: usize,
     language: String,
     remove_stop_words: bool,
 ) -> Result<Preset, String> {
+    let lang_code = language_to_iso(&language);
     let stops = if remove_stop_words {
-        stopword_set(&language)
+        StopWords::predefined(lang_code).ok_or_else(|| {
+            format!("YAKE stopwords not available for language '{}'", lang_code)
+        })?
     } else {
-        std::collections::HashSet::new()
+        StopWords::custom(std::collections::HashSet::new())
     };
-    let token_re = Regex::new(r"\b[\p{L}][\p{L}\p{M}'\-]*\b")
-        .map_err(|e| format!("token regex: {}", e))?;
-    let mut counts: HashMap<String, usize> = HashMap::new();
-    for m in token_re.find_iter(&text) {
-        let raw = m.as_str().to_lowercase();
-        if raw.len() < 3 {
-            continue;
-        }
-        if stops.contains(raw.as_str()) {
-            continue;
-        }
-        *counts.entry(raw).or_insert(0) += 1;
-    }
-    let min = min_frequency.max(1);
-    let mut entries: Vec<(String, usize)> =
-        counts.into_iter().filter(|(_, c)| *c >= min).collect();
-    entries.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
 
-    let stop_label = if remove_stop_words {
-        format!(" stop-words removed ({})", language)
-    } else {
-        String::new()
-    };
-    let terms = entries
+    let n = top_n.clamp(1, 500);
+    let config = YakeConfig::default();
+    let results = get_n_best(n, &text, &stops, &config);
+
+    let terms = results
         .into_iter()
-        .map(|(term, count)| PresetTerm {
-            term,
-            source: Some(format!("extracted:{}", count)),
+        .map(|r| PresetTerm {
+            term: r.keyword,
+            source: Some(format!("yake:{:.4}", r.score)),
         })
         .collect::<Vec<_>>();
+
+    let stop_label = if remove_stop_words {
+        format!(" stop-words filtered ({}).", lang_code)
+    } else {
+        " (stop-words retained).".to_string()
+    };
 
     Ok(Preset {
         name: "Extracted Preset".to_string(),
         description: Some(format!(
-            "Extracted from input document via tokenization + frequency ranking.{} min_frequency={}.",
-            stop_label, min
+            "Extracted via YAKE (Campos et al. 2018, KAIS) keyword extraction. \
+             Top {} key phrases by YAKE score, lower score = more important.{} \
+             n-grams up to {}, Levenshtein dedup at {}.",
+            n, stop_label, config.ngrams, config.deduplication_threshold
         )),
         version: Some("0.1.0".to_string()),
         terms,
     })
 }
 
-fn stopword_set(language: &str) -> std::collections::HashSet<String> {
-    use stop_words::{get, LANGUAGE};
-    let lang = match language.to_lowercase().as_str() {
-        "es" | "spanish" => LANGUAGE::Spanish,
-        "fr" | "french" => LANGUAGE::French,
-        "de" | "german" => LANGUAGE::German,
-        "pt" | "portuguese" => LANGUAGE::Portuguese,
-        "it" | "italian" => LANGUAGE::Italian,
-        "nl" | "dutch" => LANGUAGE::Dutch,
-        _ => LANGUAGE::English,
-    };
-    get(lang).into_iter().collect()
+fn language_to_iso(language: &str) -> &'static str {
+    match language.to_lowercase().as_str() {
+        "es" | "spanish" => "es",
+        "fr" | "french" => "fr",
+        "de" | "german" => "de",
+        "pt" | "portuguese" => "pt",
+        "it" | "italian" => "it",
+        "nl" | "dutch" => "nl",
+        _ => "en",
+    }
 }
 
 #[cfg(test)]
@@ -293,30 +286,56 @@ mod tests {
     }
 
     #[test]
-    fn extract_preset_with_stop_words_removed() {
+    fn extract_preset_yake_returns_meaningful_terms() {
+        let text = "Machine learning trust calibration is an underexplored area. \
+                    Trust calibration helps users understand machine learning outputs. \
+                    Researchers have studied trust calibration in adjacent fields.";
+        let preset = extract_preset(text.to_string(), 10, "english".to_string(), true).unwrap();
+        assert!(!preset.terms.is_empty(), "YAKE returned no terms");
+        let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
+        let has_trust_calibration = terms.iter().any(|t| t.contains("trust") && t.contains("calibration"));
+        assert!(
+            has_trust_calibration,
+            "Expected a 'trust calibration' phrase in top terms, got: {:?}",
+            terms
+        );
+    }
+
+    #[test]
+    fn extract_preset_respects_top_n() {
+        let text = "Alpha beta gamma delta epsilon zeta eta theta iota kappa \
+                    lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega. \
+                    Alpha beta gamma delta epsilon zeta eta theta iota kappa.";
+        let preset = extract_preset(text.to_string(), 5, "english".to_string(), true).unwrap();
+        assert!(preset.terms.len() <= 5, "got {} terms, expected <= 5", preset.terms.len());
+    }
+
+    #[test]
+    fn extract_preset_scores_present_and_ordered() {
         let preset = extract_preset(
-            "The reviewer praised the proposal. The proposal addressed accessibility.".to_string(),
-            1,
+            "The reviewer praised the proposal. The proposal addressed accessibility. \
+             Accessibility is essential for inclusive proposals."
+                .to_string(),
+            10,
             "english".to_string(),
             true,
         )
         .unwrap();
-        let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
-        assert!(!terms.contains(&"the"));
-        assert_eq!(preset.terms[0].term, "proposal");
-    }
-
-    #[test]
-    fn extract_preset_keeps_stop_words_when_disabled() {
-        let preset = extract_preset(
-            "The reviewer praised the proposal.".to_string(),
-            1,
-            "english".to_string(),
-            false,
-        )
-        .unwrap();
-        let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
-        assert!(terms.contains(&"the"));
+        assert!(!preset.terms.is_empty());
+        let scores: Vec<f64> = preset
+            .terms
+            .iter()
+            .filter_map(|t| {
+                t.source
+                    .as_ref()
+                    .and_then(|s| s.strip_prefix("yake:"))
+                    .and_then(|s| s.parse::<f64>().ok())
+            })
+            .collect();
+        assert_eq!(scores.len(), preset.terms.len(), "every term should have a yake score");
+        for w in scores.windows(2) {
+            assert!(w[0] <= w[1], "YAKE results should be sorted ascending by score");
+        }
     }
 
     #[test]

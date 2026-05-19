@@ -114,13 +114,13 @@ document.getElementById("extract-run").addEventListener("click", async () => {
     showError(resultsEl, "Paste text or upload a document to extract from.");
     return;
   }
-  const minFreq = parseInt(document.getElementById("extract-min-freq").value, 10) || 2;
+  const topN = parseInt(document.getElementById("extract-top-n").value, 10) || 50;
   const lang = document.getElementById("extract-lang").value || "english";
   const removeStop = stopwordsCheckbox.checked;
   try {
     const preset = await invoke("extract_preset", {
       text,
-      minFrequency: minFreq,
+      topN,
       language: lang,
       removeStopWords: removeStop,
     });
@@ -149,29 +149,30 @@ function renderExtractResults(el, preset, sourceLen) {
   if (preset.terms.length === 0) {
     const empty = document.createElement("p");
     empty.className = "subtitle";
-    empty.textContent = "No terms met the minimum frequency. Lower it and try again.";
+    empty.textContent = "YAKE returned no key phrases. Try a longer document or disable stop-word filtering.";
     el.appendChild(empty);
     return;
   }
 
   const table = document.createElement("table");
   table.innerHTML = `
-    <thead><tr><th>Term</th><th>Count</th></tr></thead>
+    <thead><tr><th>#</th><th>Key phrase</th><th>YAKE score</th></tr></thead>
     <tbody></tbody>
   `;
   const tbody = table.querySelector("tbody");
-  for (const t of preset.terms) {
-    const count =
-      t.source && t.source.startsWith("extracted:")
-        ? parseInt(t.source.slice("extracted:".length), 10) || 0
-        : 0;
+  preset.terms.forEach((t, i) => {
+    const score =
+      t.source && t.source.startsWith("yake:")
+        ? parseFloat(t.source.slice("yake:".length))
+        : null;
     const tr = document.createElement("tr");
     tr.innerHTML = `
+      <td class="count">${i + 1}</td>
       <td class="term">${escapeHtml(t.term)}</td>
-      <td class="count">${count}</td>
+      <td class="count">${score == null ? "" : score.toFixed(4)}</td>
     `;
     tbody.appendChild(tr);
-  }
+  });
   el.appendChild(table);
 
   const downloadRow = document.createElement("div");
@@ -305,6 +306,52 @@ function renderCheckResults(el, result, preset) {
     tbody.appendChild(tr);
   }
   el.appendChild(table);
+
+  const downloadRow = document.createElement("div");
+  downloadRow.className = "download-row";
+  const csvBtn = document.createElement("button");
+  csvBtn.type = "button";
+  csvBtn.className = "ghost";
+  csvBtn.textContent = "Download as CSV";
+  csvBtn.addEventListener("click", () => downloadCheckCsv(result, preset));
+  downloadRow.appendChild(csvBtn);
+  el.appendChild(downloadRow);
+}
+
+function downloadCheckCsv(result, preset) {
+  const header = ["term", "source", "count", "context_1", "context_2", "context_3"];
+  const rows = result.hits.map((h) => {
+    const ctxs = (h.contexts || []).slice(0, 3);
+    while (ctxs.length < 3) ctxs.push("");
+    return [h.term, h.source || "", h.count, ctxs[0], ctxs[1], ctxs[2]].map(csvEscape).join(",");
+  });
+  const meta = [
+    `# Concordance Check results`,
+    `# Wordlist: ${preset.name || "(unnamed)"}`,
+    `# Mode: ${result.mode}`,
+    `# Total terms in wordlist: ${result.total_terms_checked}`,
+    `# Input length (chars): ${result.text_length}`,
+    `# Hits: ${result.hits.length}`,
+    `# Generated: ${new Date().toISOString()}`,
+  ];
+  const csv = [...meta, header.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `concordance-check-${Date.now()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function csvEscape(v) {
+  const s = v == null ? "" : String(v);
+  if (/[",\n\r]/.test(s)) {
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+  return s;
 }
 
 // --------------------------------------------------------------------------

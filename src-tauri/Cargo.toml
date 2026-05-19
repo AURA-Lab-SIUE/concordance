@@ -22,7 +22,7 @@ tauri-plugin-fs = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 regex = "1"
-stop-words = "0.8"
+yake-rust = { version = "1.0.3", default-features = false, features = ["en", "es", "fr", "de", "pt", "it", "nl"] }
 
 [profile.release]
 panic = "abort"
