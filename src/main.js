@@ -88,7 +88,41 @@ const state = {
   checkPreset: null,
   // The most recently extracted preset (from the Extract section).
   extractedPreset: null,
+  // Bundled form-vocabulary stopword list (loaded once from vendor/).
+  formVocab: null,
+  // User-supplied custom stopword list (terms array).
+  customStopwords: [],
 };
+
+// Lazy-load bundled form vocabulary on first need.
+async function loadFormVocab() {
+  if (state.formVocab) return state.formVocab;
+  try {
+    const res = await fetch("./vendor/form-vocabulary-en.json");
+    const json = await res.json();
+    state.formVocab = Array.isArray(json.terms) ? json.terms : [];
+  } catch (e) {
+    console.warn("form-vocabulary-en.json failed to load:", e);
+    state.formVocab = [];
+  }
+  return state.formVocab;
+}
+
+// Parse a stopwords file: .txt = one term per line, .json = array or { terms: [...] }.
+async function parseStopwordsFile(file) {
+  const text = await file.text();
+  const name = file.name.toLowerCase();
+  if (name.endsWith(".json")) {
+    const json = JSON.parse(text);
+    if (Array.isArray(json)) return json.filter((x) => typeof x === "string");
+    if (json && Array.isArray(json.terms)) return json.terms.filter((x) => typeof x === "string");
+    throw new Error("JSON must be an array of strings or { terms: [...] }.");
+  }
+  return text
+    .split(/\r?\n/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0 && !s.startsWith("#"));
+}
 
 // --------------------------------------------------------------------------
 // EXTRACT
@@ -117,12 +151,22 @@ document.getElementById("extract-run").addEventListener("click", async () => {
   const topN = parseInt(document.getElementById("extract-top-n").value, 10) || 50;
   const lang = document.getElementById("extract-lang").value || "english";
   const removeStop = stopwordsCheckbox.checked;
+  const useFormVocab = document.getElementById("extract-form-vocab").checked;
+
+  const extras = [];
+  if (useFormVocab) {
+    const vocab = await loadFormVocab();
+    extras.push(...vocab);
+  }
+  extras.push(...state.customStopwords);
+
   try {
     const preset = await invoke("extract_preset", {
       text,
       topN,
       language: lang,
       removeStopWords: removeStop,
+      extraStopwords: extras,
     });
     state.extractedPreset = preset;
     document.getElementById("check-use-extracted").disabled = false;
@@ -372,6 +416,52 @@ function escapeHtml(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+// --------------------------------------------------------------------------
+// Custom stopwords upload
+// --------------------------------------------------------------------------
+{
+  const btn = document.getElementById("extract-custom-stops-btn");
+  const file = document.getElementById("extract-custom-stops-file");
+  const status = document.getElementById("extract-custom-stops-status");
+  btn.addEventListener("click", () => file.click());
+  file.addEventListener("change", async () => {
+    if (!file.files[0]) return;
+    try {
+      const terms = await parseStopwordsFile(file.files[0]);
+      state.customStopwords = terms;
+      setStatus(status, `${file.files[0].name} (${terms.length} stopwords loaded)`, "ok");
+    } catch (e) {
+      state.customStopwords = [];
+      setStatus(status, e.message || String(e), "err");
+    }
+  });
+}
+
+// --------------------------------------------------------------------------
+// Help modal
+// --------------------------------------------------------------------------
+{
+  const modal = document.getElementById("help-modal");
+  const openBtn = document.getElementById("help-btn");
+  const open = () => {
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  };
+  const close = () => {
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  };
+  openBtn.addEventListener("click", open);
+  modal.querySelectorAll("[data-close-modal]").forEach((el) =>
+    el.addEventListener("click", close)
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
 }
 
 console.log("Concordance UI ready.");

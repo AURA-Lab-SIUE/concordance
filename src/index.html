@@ -20,8 +20,13 @@
   </head>
   <body>
     <header>
-      <h1>Concordance</h1>
-      <p class="subtitle">A topic-agnostic term checker. AURA Lab in collaboration with SIM DAD LLC.</p>
+      <div class="header-row">
+        <div>
+          <h1>Concordance</h1>
+          <p class="subtitle">A topic-agnostic term checker. AURA Lab in collaboration with SIM DAD LLC.</p>
+        </div>
+        <button type="button" id="help-btn" class="ghost help-btn" aria-label="Open help">Help</button>
+      </div>
     </header>
 
     <nav class="tabs" role="tablist">
@@ -63,6 +68,16 @@
             <span>Top N keywords</span>
             <input type="number" id="extract-top-n" value="50" min="5" max="200" />
           </label>
+        </div>
+
+        <div class="row options">
+          <label class="check">
+            <input type="checkbox" id="extract-form-vocab" />
+            <span>Also filter form vocabulary <small>(NSF/NIH/grants.gov boilerplate)</small></span>
+          </label>
+          <input type="file" id="extract-custom-stops-file" accept=".txt,.json" hidden />
+          <button type="button" id="extract-custom-stops-btn" class="ghost">Upload custom stopwords</button>
+          <span id="extract-custom-stops-status" class="status"></span>
         </div>
 
         <div class="actions">
@@ -123,6 +138,115 @@
         Runs locally. No upload. No AI.
       </small>
     </footer>
+
+    <div id="help-modal" class="modal" hidden aria-hidden="true" role="dialog" aria-labelledby="help-title">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-panel" role="document">
+        <div class="modal-header">
+          <h2 id="help-title">Help</h2>
+          <button type="button" class="ghost modal-close" data-close-modal aria-label="Close help">Close</button>
+        </div>
+        <div class="modal-body">
+          <nav class="help-toc">
+            <a href="#help-quickstart">Quick start</a>
+            <a href="#help-prep">Preparing documents for Extract</a>
+            <a href="#help-yake">How YAKE works</a>
+            <a href="#help-stopwords">Stopwords and form vocabulary</a>
+            <a href="#help-check">Using Check mode</a>
+            <a href="#help-tips">Tips for better results</a>
+            <a href="#help-privacy">Privacy and air-gap use</a>
+            <a href="#help-about">About</a>
+          </nav>
+
+          <section id="help-quickstart">
+            <h3>Quick start</h3>
+            <p>Concordance has two modes. <strong>Extract</strong> reads a document and pulls out its most important key phrases. <strong>Check</strong> scans a document against a wordlist you provide and tells you which terms appear (or are missing).</p>
+            <ol>
+              <li>Paste text or upload a document into Extract. Click <em>Extract wordlist</em>.</li>
+              <li>Review the ranked key phrases. Download as JSON if useful, or click <em>Use extracted wordlist</em> on the Check tab to reuse it.</li>
+              <li>In Check, paste your draft or upload your document. Choose <em>Find terms</em> or <em>Find missing terms</em>. Click <em>Check</em>. Export results as CSV.</li>
+            </ol>
+          </section>
+
+          <section id="help-prep">
+            <h3>Preparing documents for Extract</h3>
+            <p>The single most common cause of disappointing results is feeding the tool an entire submission package instead of the substantive section you actually care about. Federal solicitations, in particular, contain large amounts of cover-sheet and process boilerplate that drowns out the topical content.</p>
+
+            <p><strong>Do paste / upload:</strong></p>
+            <ul>
+              <li>The Program Description, Project Description, or substantive narrative section.</li>
+              <li>The body of a journal scope statement.</li>
+              <li>The Methods / Procedures section of an IRB template.</li>
+              <li>The learning objectives + topical content sections of a syllabus.</li>
+              <li>Any single section whose vocabulary you want to characterize.</li>
+            </ul>
+
+            <p><strong>Avoid pasting / uploading:</strong></p>
+            <ul>
+              <li>Cover sheets, signature pages, certifications.</li>
+              <li>Boilerplate instructions about how to submit (PAPPG, FOA mechanics, grants.gov language).</li>
+              <li>Tables of contents, references cited sections, biographical sketches.</li>
+              <li>Budget tables and budget justifications (numbers don't tokenize well).</li>
+              <li>Form fields with placeholder text like "TBD" or "N/A".</li>
+            </ul>
+
+            <p>If you cannot easily strip the boilerplate, enable <em>Also filter form vocabulary</em> in the Extract options. This adds a bundled list of ~120 federal-solicitation boilerplate terms to the stopword filter. You can also upload your own custom stopword list.</p>
+          </section>
+
+          <section id="help-yake">
+            <h3>How YAKE works</h3>
+            <p>Concordance uses <strong>YAKE</strong> (Yet Another Keyword Extractor), an unsupervised statistical method by Campos et al. (2018). YAKE assigns each candidate phrase a score using five features: term position, term frequency, term casing, term relatedness to context, and term spread across sentences. It runs entirely on your document; no reference corpus or training data is needed.</p>
+            <p><strong>Score interpretation:</strong> YAKE scores work backwards from intuition. <strong>Lower scores are better.</strong> A score of 0.0001 means YAKE rates that phrase as more important than a phrase scoring 0.05.</p>
+            <p><strong>What YAKE does well:</strong> finding multi-word topical phrases in well-structured prose. "Trust calibration in machine learning outputs" is the kind of phrase YAKE is designed to surface.</p>
+            <p><strong>What YAKE does less well:</strong> short documents (less than ~500 words), heavily-repetitive boilerplate, transcripts with disfluencies, documents that are mostly tables or lists. For these cases, prepare the document first or use the form-vocabulary filter.</p>
+          </section>
+
+          <section id="help-stopwords">
+            <h3>Stopwords and form vocabulary</h3>
+            <p>Three layers of stopword filtering are available in Extract:</p>
+            <ol>
+              <li><strong>Remove stop words</strong> (on by default): YAKE's built-in stopword list for the selected language. Filters common words like "the", "and", "of". Turn off only for very specialized contexts where common words carry meaning.</li>
+              <li><strong>Also filter form vocabulary</strong>: bundled list of ~120 federal-solicitation boilerplate terms (NSF, NIH, grants.gov, cover-sheet vocabulary). Enable when extracting from full solicitation documents or proposal packages.</li>
+              <li><strong>Upload custom stopwords</strong>: your own list as a plain-text file (one term per line) or JSON array. Useful for filtering your own field-specific boilerplate that the bundled list misses.</li>
+            </ol>
+            <p>Stopwords are case-insensitive and applied additively across all three layers. YAKE preserves stopwords inside multi-word phrases (so "the future of computing" can still appear as a phrase even with "the" and "of" in the stopword list) but blocks them as standalone keywords or at phrase boundaries.</p>
+          </section>
+
+          <section id="help-check">
+            <h3>Using Check mode</h3>
+            <p>Check scans a piece of text against a wordlist and reports which terms appear or are missing. Wordlists can come from three places: a wordlist you extracted in the Extract tab (use the <em>Use extracted wordlist</em> button), a JSON file you've saved previously (use <em>Upload JSON</em>), or any wordlist following the same JSON schema as the Extract output.</p>
+            <p><strong>Find terms</strong> mode reports which wordlist terms appear in your text. Use this to scan a draft for awareness of an evaluator's preferred vocabulary, or to find usages of banned terms.</p>
+            <p><strong>Find missing terms</strong> mode reports which wordlist terms do <em>not</em> appear in your text. Use this to check whether a proposal addresses every concept on a checklist.</p>
+            <p>Each result row shows the matched term, the count, and up to three surrounding context snippets. Click <em>Download as CSV</em> to export the full results with metadata for spreadsheet review or sharing with a collaborator.</p>
+          </section>
+
+          <section id="help-tips">
+            <h3>Tips for better results</h3>
+            <ul>
+              <li><strong>Section-by-section, not whole-document.</strong> Run Extract on individual sections (Program Description alone, then Methods alone) and compare. You'll get sharper signals than from the whole package at once.</li>
+              <li><strong>Adjust Top N for the document length.</strong> 50 is a good default for documents under 5,000 words. For a 30-page solicitation, try 100 to 150.</li>
+              <li><strong>Inspect the YAKE score column.</strong> If your top 5 results have scores within 10% of each other, YAKE is uncertain. Add more domain-specific stopwords or shorten the input.</li>
+              <li><strong>Edit and re-run.</strong> Treat the output as a draft wordlist. Download as JSON, edit out anything not useful, and re-upload to Check mode.</li>
+              <li><strong>Build a personal stopword library.</strong> If you regularly extract from your field's boilerplate-heavy documents, save your custom stopword list and reuse it across sessions.</li>
+            </ul>
+          </section>
+
+          <section id="help-privacy">
+            <h3>Privacy and air-gap use</h3>
+            <p>Concordance runs entirely on your computer. Your documents, your wordlists, your results, and your extracted terms <strong>never leave your machine</strong>. There is no telemetry, no cloud upload, no API call, no AI service. The PDF and DOCX parsers are bundled with the installer; no network access is required at runtime.</p>
+            <p>Concordance is therefore <strong>air-gap compatible</strong>. It will run identically on a machine with no internet connection. This makes it suitable for working with pre-submission grant proposals under embargo, IRB protocols containing protected information, manuscripts under review, FERPA-sensitive syllabi, or any other document you would not be comfortable uploading to a cloud service.</p>
+            <p>The bundled YAKE algorithm is a statistical method with no machine-learning model behind it. Concordance is not an "AI tool."</p>
+          </section>
+
+          <section id="help-about">
+            <h3>About</h3>
+            <p>Concordance is built by <a href="https://aura-lab-siue.github.io/" target="_blank">AURA Lab at Southern Illinois University Edwardsville</a> in collaboration with <a href="https://simdadllc.com" target="_blank">SIM DAD LLC</a>. The software is open-source under the MIT license. Source code: <a href="https://github.com/aura-lab-siue/concordance" target="_blank">github.com/aura-lab-siue/concordance</a>.</p>
+            <p>The keyword extraction algorithm is <strong>YAKE</strong> by Campos, Mangaravite, Pasquali, Jorge, Nunes, and Jatowt (2018), <em>Information Sciences</em>, 509, 257-289. The Rust port used here is <code>yake-rust</code> by quesurifn.</p>
+            <p>If you used Concordance in your work and want to contribute to its evaluation, an anonymous post-use survey may be available at the AURA Lab project page (pending IRB approval at SIUE).</p>
+          </section>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="main.js"></script>
   </body>

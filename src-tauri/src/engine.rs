@@ -186,15 +186,24 @@ pub fn extract_preset(
     top_n: usize,
     language: String,
     remove_stop_words: bool,
+    extra_stopwords: Vec<String>,
 ) -> Result<Preset, String> {
     let lang_code = language_to_iso(&language);
-    let stops = if remove_stop_words {
+    let mut stops = if remove_stop_words {
         StopWords::predefined(lang_code).ok_or_else(|| {
             format!("YAKE stopwords not available for language '{}'", lang_code)
         })?
     } else {
         StopWords::custom(std::collections::HashSet::new())
     };
+
+    let extra_count = extra_stopwords.len();
+    for word in extra_stopwords {
+        let lc = word.trim().to_lowercase();
+        if !lc.is_empty() {
+            stops.insert(lc);
+        }
+    }
 
     let n = top_n.clamp(1, 500);
     let config = YakeConfig::default();
@@ -211,16 +220,21 @@ pub fn extract_preset(
     let stop_label = if remove_stop_words {
         format!(" stop-words filtered ({}).", lang_code)
     } else {
-        " (stop-words retained).".to_string()
+        " (built-in stop-words retained).".to_string()
+    };
+    let extra_label = if extra_count > 0 {
+        format!(" Extra stopwords applied: {}.", extra_count)
+    } else {
+        String::new()
     };
 
     Ok(Preset {
         name: "Extracted Preset".to_string(),
         description: Some(format!(
             "Extracted via YAKE (Campos et al. 2018, KAIS) keyword extraction. \
-             Top {} key phrases by YAKE score, lower score = more important.{} \
+             Top {} key phrases by YAKE score, lower score = more important.{}{} \
              n-grams up to {}, Levenshtein dedup at {}.",
-            n, stop_label, config.ngrams, config.deduplication_threshold
+            n, stop_label, extra_label, config.ngrams, config.deduplication_threshold
         )),
         version: Some("0.1.0".to_string()),
         terms,
@@ -290,7 +304,7 @@ mod tests {
         let text = "Machine learning trust calibration is an underexplored area. \
                     Trust calibration helps users understand machine learning outputs. \
                     Researchers have studied trust calibration in adjacent fields.";
-        let preset = extract_preset(text.to_string(), 10, "english".to_string(), true).unwrap();
+        let preset = extract_preset(text.to_string(), 10, "english".to_string(), true, Vec::new()).unwrap();
         assert!(!preset.terms.is_empty(), "YAKE returned no terms");
         let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
         let has_trust_calibration = terms.iter().any(|t| t.contains("trust") && t.contains("calibration"));
@@ -302,11 +316,38 @@ mod tests {
     }
 
     #[test]
+    fn extract_preset_extra_stopwords_filter_terms() {
+        let text = "NSF proposal review. NSF requires the proposal to follow NSF guidelines. \
+                    The applicant submits an NSF proposal through NSF grants.gov. \
+                    Trust calibration is the actual topic of this NSF proposal.";
+        let extras = vec!["nsf".to_string(), "proposal".to_string(), "applicant".to_string()];
+        let preset = extract_preset(
+            text.to_string(),
+            10,
+            "english".to_string(),
+            true,
+            extras,
+        )
+        .unwrap();
+        let terms: Vec<&str> = preset.terms.iter().map(|t| t.term.as_str()).collect();
+        assert!(
+            !terms.iter().any(|t| *t == "nsf" || *t == "proposal" || *t == "applicant"),
+            "Standalone stopwords should be filtered, got: {:?}",
+            terms
+        );
+        assert!(
+            terms.iter().any(|t| t.contains("trust") && t.contains("calibration")),
+            "Substantive topic should surface despite boilerplate, got: {:?}",
+            terms
+        );
+    }
+
+    #[test]
     fn extract_preset_respects_top_n() {
         let text = "Alpha beta gamma delta epsilon zeta eta theta iota kappa \
                     lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega. \
                     Alpha beta gamma delta epsilon zeta eta theta iota kappa.";
-        let preset = extract_preset(text.to_string(), 5, "english".to_string(), true).unwrap();
+        let preset = extract_preset(text.to_string(), 5, "english".to_string(), true, Vec::new()).unwrap();
         assert!(preset.terms.len() <= 5, "got {} terms, expected <= 5", preset.terms.len());
     }
 
@@ -319,6 +360,7 @@ mod tests {
             10,
             "english".to_string(),
             true,
+            Vec::new(),
         )
         .unwrap();
         assert!(!preset.terms.is_empty());
