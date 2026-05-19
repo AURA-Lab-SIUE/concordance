@@ -1,6 +1,6 @@
 // Concordance frontend.
 // Wires the UI to the Rust engine via Tauri IPC (window.__TAURI__.core.invoke).
-// Document parsing (PDF / DOCX / TXT) happens in-browser via PDF.js + mammoth.js.
+// Document parsing (PDF / DOCX / TXT) happens in-browser via locally-bundled PDF.js + mammoth.js (src/vendor/). No network at runtime. Air-gap compatible.
 
 const invoke = (...args) =>
   (window.__TAURI__ && window.__TAURI__.core && window.__TAURI__.core.invoke

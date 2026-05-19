@@ -11,14 +11,12 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
-    <script>
-      if (window.pdfjsLib) {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js";
-      }
+    <script type="module">
+      import * as pdfjsLib from "./vendor/pdf.min.mjs";
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.min.mjs";
+      window.pdfjsLib = pdfjsLib;
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.7.2/mammoth.browser.min.js"></script>
+    <script src="./vendor/mammoth.browser.min.js"></script>
   </head>
   <body>
     <header>
