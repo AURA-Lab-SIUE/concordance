@@ -24,7 +24,7 @@
     }
   },
   "bundle": {
-    "active": false,
+    "active": true,
     "targets": "all",
     "publisher": "SIM DAD LLC",
     "copyright": "Copyright 2026 AURA Lab at SIUE in collaboration with SIM DAD LLC. MIT License.",

@@ -2,7 +2,7 @@
 
 **A topic-agnostic term checker.** Provide your own wordlist (or build one by extracting from a document); scan any text against it. Runs entirely on your computer. No upload. No AI.
 
-Built by **[AURA Lab](https://aura-lab-siue.github.io/)** at Southern Illinois University Edwardsville. Distributed in collaboration with **[SIM DAD LLC](https://simdadllc.com)**, which signs the desktop installers (Windows + macOS) and operates the Gumroad listing as a donation conduit for the lab.
+Built by **[AURA Lab](https://aura-lab-siue.github.io/)** at Southern Illinois University Edwardsville. **[SIM DAD LLC](https://simdadllc.com)** provides Windows and macOS code-signing as a service to the lab. SIM DAD LLC does not operate any cash channel for Concordance.
 
 ## Status
 
@@ -56,12 +56,9 @@ MIT. See [LICENSE](LICENSE).
 
 ## Distribution + donations
 
-Concordance ships free on two channels:
+Concordance ships free on **[AURA Lab GitHub Releases](https://github.com/aura-lab-siue/concordance/releases)**. Signed Windows + macOS installers and Linux packages.
 
-- **AURA Lab GitHub Releases** with a donate-to-the-lab option
-- **SIM DAD LLC Gumroad** (pay what you want, including $0)
-
-All Gumroad proceeds are donated by SIM DAD LLC to AURA Lab via the SIUE Foundation. Pay what you want; the tool is free either way.
+If Concordance is useful to you, consider supporting AURA Lab through the [SIUE giving page](https://www.siue.edu/give/). AURA Lab sits inside the Department of Mass Communications. Donations route directly from supporter to SIUE and are tax-deductible to the donor; no commercial party intermediates the gift.
 
 ## Building locally
 
