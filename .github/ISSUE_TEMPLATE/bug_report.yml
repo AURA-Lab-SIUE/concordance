@@ -1,0 +1,58 @@
+name: Bug report
+description: Something is broken or behaving unexpectedly.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Our standby support agent picks up new tickets every 30 minutes and the first human-reviewed response lands within **12 hours**. If you reach a working day boundary, expect a response within 12 hours of next-business-day open.
+
+        Please don't paste secrets (license keys, recovery keys, email addresses you'd rather not share) into this report. Redact them with `<redacted>`. Crash reports surfaced via the in-app "Help improve Concordance" prompts are already redacted per the LLC error-reporting policy.
+  - type: input
+    id: product-version
+    attributes:
+      label: Product version
+      description: What version are you running? Find it in Help → About.
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS (latest)
+        - macOS (older)
+        - Linux (please specify in description)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Walk us through what you tried to do and what you saw instead.
+      placeholder: "I tried to..., and expected..., but got..."
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Numbered list. If we can reproduce it, we can usually fix it within the same business day.
+      placeholder: |
+        1. Open the app
+        2. Click ...
+        3. ...
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log excerpts
+      description: Paste relevant log lines if you have them. Redact paths and secrets.
+      render: text
+    validations:
+      required: false

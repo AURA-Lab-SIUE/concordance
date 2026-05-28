@@ -1,0 +1,33 @@
+name: Support question
+description: General usage question, "how do I…", or you're stuck on something that may or may not be a bug.
+title: "[support] "
+labels: ["support", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome. Our standby support agent picks up new questions every 30 minutes and the first human-reviewed response lands within **12 hours**.
+
+        If you'd rather email, send to `support+concordance@simdadllc.com` and we'll convert it to an issue automatically.
+  - type: input
+    id: product-version
+    attributes:
+      label: Product version
+      description: Find it in Help → About.
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+      description: Describe the workflow goal, not just the symptom. Most "how do I" questions resolve faster when we understand the underlying intent.
+    validations:
+      required: true
+  - type: textarea
+    id: what-tried
+    attributes:
+      label: What have you tried?
+      description: Optional. Lets us skip suggestions you've already ruled out.
+    validations:
+      required: false

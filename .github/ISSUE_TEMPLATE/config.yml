@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure
+    url: mailto:security@simdadllc.com
+    about: Report a security vulnerability privately. Please do not file public issues for security bugs.
+  - name: Email support
+    url: mailto:support+concordance@simdadllc.com
+    about: Prefer email? Write to our per-product support inbox. Our standby agent will open a tracking issue automatically.

@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest a new capability or improvement.
+title: "[feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Our standby support agent triages new feature requests every 30 minutes; the first human-reviewed response lands within **12 hours**.
+
+        Feature requests are not promised features. We try to be honest about what we will and won't ship: some requests fit the roadmap, some don't, some defer to a later major version. Either way, we'll tell you what's happening.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Start with the workflow pain, not the feature shape. The best features come from concrete workflow gaps.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What's the smallest version of this that would help? Big features land as smaller pieces.
+    validations:
+      required: false
+  - type: textarea
+    id: workarounds
+    attributes:
+      label: Workarounds you're using today
+      description: What are you doing instead? Helps us understand priority.
+    validations:
+      required: false
