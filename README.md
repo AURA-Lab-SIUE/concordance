@@ -71,3 +71,13 @@ npm run build  # production build, bundles for current platform
 ```
 
 Cross-platform builds happen automatically on push via GitHub Actions (`windows-latest` + `macos-latest` x2 + `ubuntu-22.04`).
+
+## Support
+
+If something is broken, missing, or unclear, please open an issue:
+
+- **Bug reports, feature requests, support questions:** [github.com/AURA-Lab-SIUE/concordance/issues/new/choose](https://github.com/AURA-Lab-SIUE/concordance/issues/new/choose)
+- **Prefer email?** Write to `support+concordance@simdadllc.com`. SIM DAD LLC operates the support inbox as part of its code-signing service to AURA Lab; a tracking issue opens automatically.
+- **Security disclosures:** `security@simdadllc.com`. Please do not file public issues for security bugs.
+
+A standby triage agent reviews new tickets every 30 minutes. The first human-reviewed response lands within **12 hours**. We're honest about what we'll fix and what we won't, and we tell you which is which.
